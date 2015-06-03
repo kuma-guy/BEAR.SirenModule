@@ -67,7 +67,7 @@ If you defined as "self", the module automatically build url for your resource.
 
 ## Example
 
-```
+```php
 class Order extends ResourceObject
 {
      /**
