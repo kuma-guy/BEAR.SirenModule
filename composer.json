@@ -1,0 +1,29 @@
+{
+  "name": "bear/siren-renderer",
+  "description": "",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "shingo kumagai"
+    }
+  ],
+  "require": {
+    "bear/resource": "~1.1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "BEAR\\SirenRenderer\\": "src/"
+    },
+    "files": ["src-file/doctrine_annotations.php"]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BEAR\\SirenRenderer\\": [
+        "tests/",
+        "tests/Fake/"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
