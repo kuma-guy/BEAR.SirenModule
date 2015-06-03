@@ -7,6 +7,7 @@
 namespace BEAR\SirenRenderer\Context;
 
 use BEAR\Resource\RenderInterface;
+use BEAR\SirenRenderer\Provide\Representation\SirenRenderer;
 use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
 
