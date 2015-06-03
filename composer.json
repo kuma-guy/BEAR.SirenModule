@@ -18,10 +18,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "BEAR\\SirenRenderer\\": [
-        "tests/",
-        "tests/Fake/"
-      ]
+      "BEAR\\SirenRenderer\\": "tests/",
+      "FakeVendor\\Sandbox\\": "tests/Fake/FakeVendor/Sandbox/"
     }
   },
   "minimum-stability": "dev",
