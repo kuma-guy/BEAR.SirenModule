@@ -6,6 +6,8 @@
  */
 namespace BEAR\SirenRenderer\Provide\Representation;
 
+use BEAR\Resource\RenderInterface;
+use BEAR\Resource\ResourceObject;
 use Doctrine\Common\Annotations\Reader;
 
 final class SirenRenderer implements RenderInterface
@@ -33,9 +35,11 @@ final class SirenRenderer implements RenderInterface
         if ($e) {
             // @codeCoverageIgnoreStart
             error_log('json_encode error: ' . json_last_error_msg() . ' in ' . __METHOD__);
+
             return '';
             // @codeCoverageIgnoreEnd
         }
+
         return $ro->view;
     }
 }
