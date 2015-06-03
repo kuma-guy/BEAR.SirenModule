@@ -1,7 +1,7 @@
 # BEAR.SirenRenderer
 
 This is Siren renderer for BEAR.Sunday
-It overrides default renderer.
+It overrides default renderer and represents your resource in Siren format.
 
 Siren
 https://github.com/kevinswiber/siren
