@@ -8,13 +8,21 @@ https://github.com/kevinswiber/siren
 
 ## Entity
 
-### class
+### class (Optional.)
 
-@class
+You can specify this value with @class annotation. Otherwise it automatically defined as the class name of the resource object.
+
+@class("order")
 
 ### properties
 
-@properties
+You can specify this value with @class annotation.
+
+@properties(orderNumber=42, itemCount=3, status="pending")
+
+## Entities
+
+WIP
 
 ## Actions
 
