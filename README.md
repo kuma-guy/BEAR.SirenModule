@@ -8,43 +8,98 @@ https://github.com/kevinswiber/siren
 
 ## Entity
 
-### class (Optional.)
+### class (Optional)
 
 You can specify this value with @class annotation. Otherwise it automatically defined as the class name of the resource object.
 
-@class("order")
+@Class("order")
 
 ### properties
 
 You can specify this value with @class annotation.
 
-@properties(orderNumber=42, itemCount=3, status="pending")
+@Properties(orderNumber=42, itemCount=3, status="pending")
 
 ## Entities
 
-WIP
+@Entity(class="items", rel="app://self/order-items")
+
+### class (Optional)
+
+### rel (Required)
+
+### href (Required)
+
+### type (Optional)
 
 ## Actions
 
 Action show available behaviors that your resource supports.
 
-@action(name="add-item", title="Add Item", method="POST", href="self")
+@Action(name="add-item", title="Add Item", method="POST", href="self")
 
-### name (Required.)
+### name (Required)
 
 Default name will be the method name on the resource object such as OnGet, OnPost..
 You can override the name with annotation @name
 
-### title (Optional.)
+### title (Optional)
 
 This is optional value for title of the action.
 
-### method (Optional.)
+### method (Optional)
 
 This is optional value for method of the action.
 
-### href (Required.)
+### href (Required)
 
 If you defined as "self", the module automatically build url for your resource.
+
+## Links
+
+@Link(rel="previous", parameter="{orderNumber}")
+@Link(rel="next", parameter="{orderNumber}")
+
+### rel (Required)
+
+### href (Optional)
+
+
+## Example
+
+```
+class Order extends ResourceObject
+{
+     /**
+      * @Class(name="order")
+      * @Properties(parameter="{orderNumber},{itemCount},{status}")
+      * @Action(name="add-item", title="Add Item", method="POST", href="self")
+      * @Action(name="delete-item", title="Delete Item", method="DELETE", href="self")
+      * @Link(rel="previous", parameter="{orderNumber}")
+      * @Link(rel="next", parameter="{orderNumber}")
+      */
+     public function onGet($orderNumber)
+     {
+         $this['itemCount'] = 3;
+         $this['status'] = "pending";
+         return $this;
+     }
+
+     /**
+      * Add Item
+      */
+     public function onPost()
+     {
+     }
+
+     /**
+      * Delete Item
+      */
+     public function onDelete($orderNumber)
+     {
+     }
+}
+```
+
 
 
