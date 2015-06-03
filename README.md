@@ -16,9 +16,10 @@ You can specify this value with @class annotation. Otherwise it automatically de
 
 ### properties
 
-You can specify this value with @class annotation.
+By default, This is the body of the resource object.
+However, you can add this value with @Properties annotation.
 
-@Properties(orderNumber=42, itemCount=3, status="pending")
+@Properties(additionalParameter=42)
 
 ## Entities
 
@@ -72,7 +73,6 @@ class Order extends ResourceObject
 {
      /**
       * @Class(name="order")
-      * @Properties(parameter="{orderNumber},{itemCount},{status}")
       * @Action(name="add-item", title="Add Item", method="POST", href="self")
       * @Action(name="delete-item", title="Delete Item", method="DELETE", href="self")
       * @Link(rel="previous", parameter="{orderNumber}")
@@ -80,6 +80,7 @@ class Order extends ResourceObject
       */
      public function onGet($orderNumber)
      {
+         // This body is going to be property values.
          $this['itemCount'] = 3;
          $this['status'] = "pending";
          return $this;
