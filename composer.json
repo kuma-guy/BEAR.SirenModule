@@ -8,7 +8,8 @@
     }
   ],
   "require": {
-    "bear/resource": "~1.1.1"
+    "bear/resource": "~1.1.1",
+    "danielgsims/php-siren": "0.9"
   },
   "autoload": {
     "psr-4": {
