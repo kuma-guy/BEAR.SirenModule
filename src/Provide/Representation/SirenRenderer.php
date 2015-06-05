@@ -73,9 +73,6 @@ final class SirenRenderer implements RenderInterface
 
     private function getSiren(ResourceObject $ro, array $annotations)
     {
-        // Siren Root Entity
-        $rootEntity = new Entity();
-
         // Get Reflection Class For Resource
         $ref = new ReflectionClass($ro);
 
@@ -83,8 +80,22 @@ final class SirenRenderer implements RenderInterface
         $self = new Link;
         $self->addRel('self')->setHref($this->getHref($ro->uri));
 
+        // Resource Body
         $body = $ro->jsonSerialize();
 
+        // Siren Root Entity
+        $rootEntity = new Entity();
+        // Class
+        $className = $this->getClass($ref);
+        $rootEntity->addClass($className);
+        // Add Self Link
+        $rootEntity->addLink($self);
+        // Actions
+        $actions = $this->getActions($ro->uri->method, $ref);
+        foreach ($actions as $action) {
+            $rootEntity->addAction($action);
+        }
+        // Sub Entity
         foreach ($annotations as $annotation) {
             if ($annotation instanceof Embed) {
                 if (isset($body[$annotation->rel])) {
@@ -93,26 +104,14 @@ final class SirenRenderer implements RenderInterface
                         ->addRel($annotation->rel)
                         ->setHref($annotation->src);
                 }
+                /** @var $entity Entity */
                 $rootEntity->addEntity($entity);
                 unset($body[$annotation->rel]);
             }
         }
-
-        // TODO: Related Link
-
-        // Class
-        $className = $this->getClass($ref);
         // Properties
         $rootEntity->setProperties($body);
-        $rootEntity->addClass($className);
-        $rootEntity->addLink($self);
-
-        // Actions
-        $actions = $this->getActions($ro->uri->method, $ref);
-        foreach ($actions as $action) {
-            $rootEntity->addAction($action);
-        }
-
+        // TODO: Related Link
 
         return $rootEntity;
     }
