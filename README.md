@@ -104,4 +104,48 @@ class Order extends ResourceObject
 ```
 
 
+```json
+{
+  "class": [
+    "order"
+  ],
+  "properties": {
+    "orderNumber": 42,
+    "itemCount": 3,
+    "status": "pending"
+  },
+  "actions": [
+    {
+      "name": "add-item",
+      "href": "http:\/\/api.x.io\/orders\/42\/items",
+      "method": "POST",
+      "title": "Add Item",
+      "type": "application\/x-www-form-urlencoded"
+    },
+    {
+      "name": "delete-item",
+      "href": "http:\/\/api.x.io\/orders\/42\/items",
+      "method": "DELETE",
+      "title": "Delete Item",
+      "type": "application\/x-www-form-urlencoded"
+    },
+    {
+      "name": "update-item",
+      "href": "http:\/\/api.x.io\/orders\/42\/items",
+      "method": "PUT",
+      "title": "Update Item",
+      "type": "application\/x-www-form-urlencoded"
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "http:\/\/localhost\/order?orderNumber=42"
+    }
+  ]
+}
+```
+
 
