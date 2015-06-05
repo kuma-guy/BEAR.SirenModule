@@ -72,9 +72,8 @@ If you defined as "self", the module automatically build url for your resource.
 class Order extends ResourceObject
 {
      /**
-      * @Class(name="order")
-      * @Action(name="add-item", title="Add Item", method="POST", href="self")
-      * @Action(name="delete-item", title="Delete Item", method="DELETE", href="self")
+      * @Name("get-item")
+      * @Title("Get Item")
       * @Link(rel="previous", parameter="{orderNumber}")
       * @Link(rel="next", parameter="{orderNumber}")
       */
@@ -87,14 +86,16 @@ class Order extends ResourceObject
      }
 
      /**
-      * Add Item
+      * @Name("add-item")
+      * @Title("Add Item")
       */
      public function onPost()
      {
      }
 
      /**
-      * Delete Item
+      * @Name("delete-item")
+      * @Title("Delete Item")
       */
      public function onDelete($orderNumber)
      {
