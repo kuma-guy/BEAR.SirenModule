@@ -18,6 +18,13 @@ final class SubEntity
      *
      * @var string
      */
+    public $class = '';
+
+    /**
+     * uri
+     *
+     * @var string
+     */
     public $rel = '';
 
     /**
