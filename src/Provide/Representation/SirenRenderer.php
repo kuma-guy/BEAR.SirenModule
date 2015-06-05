@@ -6,6 +6,7 @@
  */
 namespace BEAR\SirenRenderer\Provide\Representation;
 
+use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\RenderInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
@@ -78,16 +79,32 @@ final class SirenRenderer implements RenderInterface
         // Get Reflection Class For Resource
         $ref = new ReflectionClass($ro);
 
-        // Class
-        $className = $this->getClass($ref);
-        $rootEntity->addClass($className);
-
-        // Properties
-        $rootEntity->setProperties($ro->body);
-
         // Self Link
         $self = new Link;
         $self->addRel('self')->setHref($this->getHref($ro->uri));
+
+        $body = $ro->jsonSerialize();
+
+        foreach ($annotations as $annotation) {
+            if ($annotation instanceof Embed) {
+                if (isset($body[$annotation->rel])) {
+                    $entity = new Entity();
+                    $entity->setProperties($body[$annotation->rel])
+                        ->addRel($annotation->rel)
+                        ->setHref($annotation->src);
+                }
+                $rootEntity->addEntity($entity);
+                unset($body[$annotation->rel]);
+            }
+        }
+
+        // TODO: Related Link
+
+        // Class
+        $className = $this->getClass($ref);
+        // Properties
+        $rootEntity->setProperties($body);
+        $rootEntity->addClass($className);
         $rootEntity->addLink($self);
 
         // Actions
@@ -96,15 +113,13 @@ final class SirenRenderer implements RenderInterface
             $rootEntity->addAction($action);
         }
 
-        // TODO: Sub Entity
-        // TODO: Related Link
 
         return $rootEntity;
     }
 
     private function getClass(ReflectionClass $ref)
     {
-        return lcfirst($ref->getShortName());
+        return lcfirst($ref->getParentClass()->getShortName());
     }
 
     private function getHref(Uri $uri)
