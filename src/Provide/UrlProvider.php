@@ -6,6 +6,8 @@
  */
 namespace BEAR\SirenRenderer\Provide;
 
+use Ray\Di\ProviderInterface;
+
 class UrlProvider implements UrlProviderInterface
 {
     /**

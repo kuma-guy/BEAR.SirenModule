@@ -6,10 +6,8 @@
  */
 namespace BEAR\SirenRenderer\Provide;
 
-interface UrlProviderInterface
+use Ray\Di\ProviderInterface;
+
+interface UrlProviderInterface extends ProviderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function get();
 }
