@@ -2,6 +2,7 @@
 
 namespace FakeVendor\Sandbox\Resource\App;
 
+use BEAR\Resource\Annotation\Link;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\SirenRenderer\Annotation\Name;
@@ -19,8 +20,7 @@ class Order extends ResourceObject
     /**
      * @Name("get-item")
      * @Title("Get Item")
-     * @SubEntity(class="items,collection", uri="app:://self/order-items")
-     * @SubEntity(class="info,customer", uri="app://self/customer")
+     * @Link(rel="customer", href="app://self/customer{?customerId}", method="get")
      *
      * @param $orderNumber
      * @return $this
@@ -30,6 +30,15 @@ class Order extends ResourceObject
         $this['orderNumber'] = $orderNumber;
         $this['itemCount']   = 3;
         $this['status']      = "pending";
+
+        $customer = [
+            'customerId' => "pj123"
+        ];
+
+        // TODO: How to implement Sub Entities BODY
+        $this->resource->href('customer', $customer);
+
+
         return $this;
     }
 

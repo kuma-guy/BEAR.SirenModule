@@ -5,6 +5,7 @@ namespace FakeVendor\Sandbox\Resource\App;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\SirenRenderer\Annotation\Name;
+use BEAR\SirenRenderer\Annotation\Rel;
 use BEAR\SirenRenderer\Annotation\SubEntity;
 use BEAR\SirenRenderer\Annotation\Title;
 
