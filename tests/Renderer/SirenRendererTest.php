@@ -1,68 +1,28 @@
 <?php
 
-namespace BEAR\Resource;
+namespace BEAR\SirenRenderer;
 
-use BEAR\SirenRenderer\Provide\Representation\SirenRenderer;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Cache\ArrayCache;
+use BEAR\Resource\ResourceInterface;
+use FakeVendor\Sandbox\AppModule;
+use Ray\Di\Injector;
 
-class Root extends ResourceObject
-{
-    public function onGet()
-    {
-        $this['one'] = 1;
-        $this['two'] = new Request(
-            new Invoker(new NamedParameter(new ArrayCache, new VoidParamHandler)),
-            new Child
-        );
-        return $this;
-    }
-}
-class Child extends ResourceObject
-{
-    public function onGet()
-    {
-        $this['tree'] = 3;
-        return $this;
-    }
-}
 class SirenRendererTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var
-     */
-    private $ro;
-    protected function setUp()
+    public function testConfigure()
     {
-        $this->ro = new Root;
-        $this->ro->setRenderer(new SirenRenderer(new AnnotationReader()));
-    }
-    public function testRender()
-    {
-        $ro = $this->ro->onGet();
-        $data = (string) $ro;
-        $expected = '{"one":1,"two":{"tree":3}}';
-        $this->assertSame($expected, $data);
-    }
-    public function testRenderScalar()
-    {
-        $this->ro->body = 1;
-        $data = (string) $this->ro;
-        $expected = '{"value":1}';
-        $this->assertSame($expected, $data);
-    }
-    public function testError()
-    {
-        $this->ro['inf'] = log(0);
-        $data = (string) $this->ro;
-        $this->assertInternalType('string', $data);
-    }
-    public function testHeader()
-    {
-        /* @var $ro ResourceObject */
-        $ro = $this->ro->onGet();
-        (string) $ro;
-        $expected = 'application/vnd.siren+json';
-        $this->assertSame($expected, $ro->headers['content-type']);
+        $resource = (new Injector(new AppModule()))->getInstance(ResourceInterface::class);
+        // request
+        $order = $resource
+            ->get
+            ->uri('app://self/order')
+            ->withQuery(['orderNumber' => 42])
+            ->eager
+            ->request();
+
+        var_dump((string) $order);
+        die();
+
+
+        $this->assertSame($expect, (string) $news);
     }
 }
