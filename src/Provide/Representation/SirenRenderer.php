@@ -11,6 +11,7 @@ use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
 use BEAR\SirenRenderer\Provide\UrlProvider;
 use Doctrine\Common\Annotations\Reader;
+use ReflectionClass;
 use Siren\Components\Entity;
 use Siren\Components\Link;
 use Siren\Encoders\Encoder;
@@ -46,7 +47,7 @@ final class SirenRenderer implements RenderInterface
         $annotations = [];
 
         /* @var $annotations Link[] */
-        $siren = $this->getSiren($ro->uri, $body, $annotations);
+        $siren = $this->getSiren($ro);
 
         $response = (new Encoder)->encode($siren);
         $response = json_encode($response);
@@ -65,23 +66,43 @@ final class SirenRenderer implements RenderInterface
         return $uri;
     }
 
-    private function getSiren(Uri $uri, array $body, array $annotation)
+    private function getSiren(ResourceObject $ro)
     {
-        $domain = $this->url->get();
-
-        $query = $uri->query ? '?' . http_build_query($uri->query) : '';
-        $path = $uri->path . $query;
-        $selfLink = $this->getReverseMatchedLink($path);
-        $selfLink = $domain . $selfLink;
-
-
+        // Siren Root Entity
         $rootEntity = new Entity();
-        $self = new Link;
-        $self->addRel('self')
-            ->setHref($selfLink);
 
+        // Class
+        $className = $this->getClass($ro);
+        $rootEntity->addClass($className);
+
+        // Properties
+        $rootEntity->setProperties($ro->body);
+
+        // Self Link
+        $self = new Link;
+        $self->addRel('self')->setHref($this->getHref($ro->uri));
         $rootEntity->addLink($self);
 
+        // TODO: Sub Entity
+        // TODO: Related Link
+        
         return $rootEntity;
+    }
+
+    private function getClass(ResourceObject $ro)
+    {
+        $refClass = new ReflectionClass($ro);
+        return lcfirst($refClass->getShortName());
+    }
+
+    private function getHref(Uri $uri)
+    {
+        $siteUrl = $this->url->get();
+        $query = $uri->query ? '?' . http_build_query($uri->query) : '';
+        $path = $uri->path . $query;
+        $link = $this->getReverseMatchedLink($path);
+        $link = $siteUrl . $link;
+
+        return $link;
     }
 }
