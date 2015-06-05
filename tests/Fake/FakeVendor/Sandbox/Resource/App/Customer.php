@@ -4,10 +4,6 @@ namespace FakeVendor\Sandbox\Resource\App;
 
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenRenderer\Annotation\Name;
-use BEAR\SirenRenderer\Annotation\Rel;
-use BEAR\SirenRenderer\Annotation\SubEntity;
-use BEAR\SirenRenderer\Annotation\Title;
 
 class Customer extends ResourceObject
 {
@@ -18,10 +14,16 @@ class Customer extends ResourceObject
     }
 
     /**
-     *
+     * Class(name="info,customer")?
+     * Rel?
      */
     public function onGet($customerId)
     {
+        // class: [ "info", "customer" ]
+        // rel: [ "http://x.io/rels/customer" ]
+        // links :  { "rel": [ "self" ], "href": "http://api.x.io/customers/pj123" }
+
+        // Going to be properties
         $this['customerId'] = "pj123";
         $this['name'] = "Peter Joseph";
         return $this;

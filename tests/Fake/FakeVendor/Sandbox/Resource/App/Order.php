@@ -6,6 +6,7 @@ use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\Annotation\Link;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
+use BEAR\SirenRenderer\Annotation\Field;
 use BEAR\SirenRenderer\Annotation\Name;
 use BEAR\SirenRenderer\Annotation\SubEntity;
 use BEAR\SirenRenderer\Annotation\Title;
@@ -37,32 +38,8 @@ class Order extends ResourceObject
         $customerId = "pj123";
 
         $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
-        $this['item']->eager->request();
+        $this['item'] = [];
 
         return $this;
-    }
-
-    /**
-     * @Name("add-item")
-     * @Title("Add Item")
-     */
-    public function onPost()
-    {
-    }
-
-    /**
-     * @Name("delete-item")
-     * @Title("Delete Item")
-     */
-    public function onDelete()
-    {
-    }
-
-    /**
-     * @Name("update-item")
-     * @Title("Update Item")
-     */
-    public function onPut()
-    {
     }
 }
