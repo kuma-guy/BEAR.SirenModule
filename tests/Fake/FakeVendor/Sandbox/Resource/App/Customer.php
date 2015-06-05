@@ -18,7 +18,7 @@ class Customer extends ResourceObject
     }
 
     /**
-     * @Rel("http://x.io/rels/customer")
+     *
      */
     public function onGet($customerId)
     {

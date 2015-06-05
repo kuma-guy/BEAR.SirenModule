@@ -2,6 +2,7 @@
 
 namespace FakeVendor\Sandbox\Resource\App;
 
+use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\Annotation\Link;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
@@ -20,7 +21,9 @@ class Order extends ResourceObject
     /**
      * @Name("get-item")
      * @Title("Get Item")
-     * @Link(rel="customer", href="app://self/customer{?customerId}", method="get")
+     *
+     * @Embed(rel="customer", src="app://self/customer{?customerId}")
+     * @Embed(rel="item", src="app://self/item")
      *
      * @param $orderNumber
      * @return $this
@@ -31,13 +34,10 @@ class Order extends ResourceObject
         $this['itemCount']   = 3;
         $this['status']      = "pending";
 
-        $customer = [
-            'customerId' => "pj123"
-        ];
+        $customerId = "pj123";
 
-        // TODO: How to implement Sub Entities BODY
-        $this->resource->href('customer', $customer);
-
+        $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
+        $this['item']->eager->request();
 
         return $this;
     }
