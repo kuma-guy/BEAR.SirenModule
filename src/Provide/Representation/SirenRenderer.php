@@ -9,9 +9,14 @@ namespace BEAR\SirenRenderer\Provide\Representation;
 use BEAR\Resource\RenderInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
+use BEAR\SirenRenderer\Annotation\Action as SirenAction;
+use BEAR\SirenRenderer\Annotation\Name;
+use BEAR\SirenRenderer\Annotation\Title;
 use BEAR\SirenRenderer\Provide\UrlProvider;
 use Doctrine\Common\Annotations\Reader;
+use JsonSchema\RefResolver;
 use ReflectionClass;
+use Siren\Components\Action;
 use Siren\Components\Entity;
 use Siren\Components\Link;
 use Siren\Encoders\Encoder;
@@ -43,11 +48,10 @@ final class SirenRenderer implements RenderInterface
             $ro->headers['content-type'] = 'application/vnd.siren+json';
         }
 
-        $body = $ro->body;
-        $annotations = [];
+        $method = 'on' . ucfirst($ro->uri->method);
+        $annotations = $this->reader->getMethodAnnotations(new \ReflectionMethod($ro, $method));
 
-        /* @var $annotations Link[] */
-        $siren = $this->getSiren($ro);
+        $siren = $this->getSiren($ro, $annotations);
 
         $response = (new Encoder)->encode($siren);
         $response = json_encode($response);
@@ -66,13 +70,16 @@ final class SirenRenderer implements RenderInterface
         return $uri;
     }
 
-    private function getSiren(ResourceObject $ro)
+    private function getSiren(ResourceObject $ro, array $annotations)
     {
         // Siren Root Entity
         $rootEntity = new Entity();
 
+        // Get Reflection Class For Resource
+        $ref = new ReflectionClass($ro);
+
         // Class
-        $className = $this->getClass($ro);
+        $className = $this->getClass($ref);
         $rootEntity->addClass($className);
 
         // Properties
@@ -83,16 +90,21 @@ final class SirenRenderer implements RenderInterface
         $self->addRel('self')->setHref($this->getHref($ro->uri));
         $rootEntity->addLink($self);
 
+        // Actions
+        $actions = $this->getActions($ro->uri->method, $ref);
+        foreach ($actions as $action) {
+            $rootEntity->addAction($action);
+        }
+
         // TODO: Sub Entity
         // TODO: Related Link
-        
+
         return $rootEntity;
     }
 
-    private function getClass(ResourceObject $ro)
+    private function getClass(ReflectionClass $ref)
     {
-        $refClass = new ReflectionClass($ro);
-        return lcfirst($refClass->getShortName());
+        return lcfirst($ref->getShortName());
     }
 
     private function getHref(Uri $uri)
@@ -104,5 +116,63 @@ final class SirenRenderer implements RenderInterface
         $link = $siteUrl . $link;
 
         return $link;
+    }
+
+    private function getActions($currentMethod, ReflectionClass $ref)
+    {
+        $actions = [];
+
+        $currentMethodName = 'on' . ucfirst($currentMethod);
+        $methods = $ref->getMethods();
+
+        foreach ($methods as $method) {
+            // Don't build action if method does not start with "on".
+            if (strpos($method->name, 'on') !== 0) {
+                continue;
+            }
+            // Don't build action if current method.
+            if ($currentMethodName == $method->name) {
+                continue;
+            }
+
+            // Build action
+            $action = new Action();
+            $annotations = $this->reader->getMethodAnnotations($method);
+
+            foreach ($annotations as $annotation) {
+                if ($annotation instanceof Name) {
+                    $action->setName($annotation->value);
+                } else {
+                    // Name is required.
+                }
+                if ($annotation instanceof Title) {
+                    $action->setTitle($annotation->value);
+                }
+            }
+
+            // TODO:
+            $action->setHref("http://api.x.io/orders/42/items");
+
+            switch ($method->name) {
+                case 'onGet':
+                    $action->setMethod('GET');
+                    break;
+                case 'onPost':
+                    $action->setMethod('POST');
+                    break;
+                case 'onPut':
+                    $action->setMethod('PUT');
+                    break;
+                case 'onDelete':
+                    $action->setMethod('DELETE');
+                    break;
+                default:
+                    continue;
+            }
+
+            $actions[] = $action;
+        }
+
+        return $actions;
     }
 }
