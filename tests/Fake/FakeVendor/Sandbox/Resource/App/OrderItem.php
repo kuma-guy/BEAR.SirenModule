@@ -7,7 +7,7 @@ use BEAR\SirenRenderer\Annotation\Field;
 use BEAR\SirenRenderer\Annotation\Name;
 use BEAR\SirenRenderer\Annotation\Title;
 
-class Item extends ResourceObject
+class Orderitem extends ResourceObject
 {
     /**
      * Class(name="items,collection")?

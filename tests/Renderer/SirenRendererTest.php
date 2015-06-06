@@ -19,7 +19,9 @@ class SirenRendererTest extends \PHPUnit_Framework_TestCase
             ->eager
             ->request();
 
-        var_dump((string) $order);
+        $string = (string) $order;
+        //var_dump(json_decode($string));
+        var_dump($string);
         die();
 
 

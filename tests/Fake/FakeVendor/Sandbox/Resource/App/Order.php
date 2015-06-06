@@ -6,6 +6,7 @@ use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\Annotation\Link;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
+use BEAR\SirenRenderer\Annotation\Action;
 use BEAR\SirenRenderer\Annotation\Field;
 use BEAR\SirenRenderer\Annotation\Name;
 use BEAR\SirenRenderer\Annotation\SubEntity;
@@ -24,7 +25,9 @@ class Order extends ResourceObject
      * @Title("Get Item")
      *
      * @Embed(rel="customer", src="app://self/customer{?customerId}")
-     * @Embed(rel="item", src="app://self/item")
+     * @Embed(rel="order-items", src="app://self/orderitem{?orderNumber}")
+     *
+     * @Action(src="app://self/orderitem{?orderNumber}", method="post")
      *
      * @param $orderNumber
      * @return $this
@@ -38,7 +41,7 @@ class Order extends ResourceObject
         $customerId = "pj123";
 
         $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
-        $this['item'] = [];
+        $this['order-items'] = [];
 
         return $this;
     }

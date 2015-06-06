@@ -4,6 +4,7 @@ namespace FakeVendor\Sandbox\Resource\App;
 
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
+use BEAR\SirenRenderer\Annotation\SirenClass;
 
 class Customer extends ResourceObject
 {
@@ -14,8 +15,10 @@ class Customer extends ResourceObject
     }
 
     /**
-     * Class(name="info,customer")?
-     * Rel?
+     * @SirenClass(name="info,customer")
+     *
+     * @param $customerId
+     * @return $this
      */
     public function onGet($customerId)
     {
