@@ -86,8 +86,6 @@ class Order extends ResourceObject
      * @Embed(rel="order-items", src="app://self/orderitem{?orderNumber}")
      * @Action(src="app://self/orderitem{?orderNumber}", method="post")
      *
-     * @Action(src="app://self/orderitem{?orderNumber}", method="post")
-     *
      * @param $orderNumber
      * @return $this
      */
