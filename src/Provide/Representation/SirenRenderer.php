@@ -85,16 +85,26 @@ final class SirenRenderer implements RenderInterface
 
         // Siren Root Entity
         $rootEntity = new Entity();
+
         // Class
         $className = $this->getClass($ref);
         $rootEntity->addClass($className);
+
         // Add Self Link
         $rootEntity->addLink($self);
+
         // Actions
-        $actions = $this->getActions($ro->uri->method, $ref);
-        foreach ($actions as $action) {
-            $rootEntity->addAction($action);
+        if (isset($body['siren']['actions'])) {
+            foreach ($body['siren']['actions'] as $data) {
+                $action = new Action();
+                $action->setName($data['name']);
+                $action->setTitle($data['title']);
+                $action->setHref('test here');
+
+                $rootEntity->addAction($action);
+            }
         }
+
         // Sub Entity
         foreach ($annotations as $annotation) {
             if ($annotation instanceof Embed) {
@@ -109,8 +119,11 @@ final class SirenRenderer implements RenderInterface
                 unset($body[$annotation->rel]);
             }
         }
+
         // Properties
+        unset($body['siren']);
         $rootEntity->setProperties($body);
+
         // TODO: Related Link
 
         return $rootEntity;
