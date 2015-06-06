@@ -21,12 +21,8 @@ class Order extends ResourceObject
     }
 
     /**
-     * @Name("get-item")
-     * @Title("Get Item")
-     *
      * @Embed(rel="customer", src="app://self/customer{?customerId}")
      * @Embed(rel="order-items", src="app://self/orderitem{?orderNumber}")
-     *
      * @Action(src="app://self/orderitem{?orderNumber}", method="post")
      *
      * @param $orderNumber
