@@ -71,80 +71,71 @@ If you defined as "self", the module automatically build url for your resource.
 ```php
 class Order extends ResourceObject
 {
-     /**
-      * @Name("get-item")
-      * @Title("Get Item")
-      * @Link(rel="previous", parameter="{orderNumber}")
-      * @Link(rel="next", parameter="{orderNumber}")
-      */
-     public function onGet($orderNumber)
-     {
-         // This body is going to be property values.
-         $this['itemCount'] = 3;
-         $this['status'] = "pending";
-         return $this;
-     }
+    /**
+     * @Name("get-item")
+     * @Title("Get Item")
+     *
+     * @Embed(rel="customer", src="app://self/customer{?customerId}")
+     * @Embed(rel="order-items", src="app://self/orderitem{?orderNumber}")
+     *
+     * @Action(src="app://self/orderitem{?orderNumber}", method="post")
+     *
+     * @param $orderNumber
+     * @return $this
+     */
+    public function onGet($orderNumber)
+    {
+        $this['orderNumber'] = $orderNumber;
+        $this['itemCount']   = 3;
+        $this['status']      = "pending";
 
-     /**
-      * @Name("add-item")
-      * @Title("Add Item")
-      */
-     public function onPost()
-     {
-     }
+        $customerId = "pj123";
 
-     /**
-      * @Name("delete-item")
-      * @Title("Delete Item")
-      */
-     public function onDelete($orderNumber)
-     {
-     }
+        $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
+        $this['order-items'] = [];
+
+        return $this;
+    }
 }
 ```
 
 
 ```json
 {
-  "class": [
-    "order"
-  ],
-  "properties": {
-    "orderNumber": 42,
-    "itemCount": 3,
-    "status": "pending"
-  },
-  "actions": [
-    {
-      "name": "add-item",
-      "href": "http:\/\/api.x.io\/orders\/42\/items",
-      "method": "POST",
-      "title": "Add Item",
-      "type": "application\/x-www-form-urlencoded"
+    "class": [
+        "order"
+    ],
+    "properties": {
+        "orderNumber": 42,
+        "itemCount": 3,
+        "status": "pending"
     },
-    {
-      "name": "delete-item",
-      "href": "http:\/\/api.x.io\/orders\/42\/items",
-      "method": "DELETE",
-      "title": "Delete Item",
-      "type": "application\/x-www-form-urlencoded"
-    },
-    {
-      "name": "update-item",
-      "href": "http:\/\/api.x.io\/orders\/42\/items",
-      "method": "PUT",
-      "title": "Update Item",
-      "type": "application\/x-www-form-urlencoded"
-    }
-  ],
-  "links": [
-    {
-      "rel": [
-        "self"
-      ],
-      "href": "http:\/\/localhost\/order?orderNumber=42"
-    }
-  ]
+    "entities": [
+        {
+            "href": "app://self/customer{?customerId}",
+            "rel": [
+                "customer"
+            ],
+            "properties": {
+                "customerId": "pj123",
+                "name": "Peter Joseph"
+            }
+        },
+        {
+            "href": "app://self/orderitem{?orderNumber}",
+            "rel": [
+                "order-items"
+            ]
+        }
+    ],
+    "links": [
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "http://localhost/order?orderNumber=42"
+        }
+    ]
 }
 ```
 
