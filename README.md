@@ -1,43 +1,52 @@
 # BEAR.SirenRenderer
 
-This is Siren renderer for BEAR.Sunday
+Siren renderer for BEAR.Sunday
 It overrides default renderer and represents your resource in Siren format.
 
-Siren
-https://github.com/kevinswiber/siren
+Siren [https://github.com/kevinswiber/siren]
 
 ## Entity
 
 ### class (Optional)
 
-You can specify this value with @class annotation. Otherwise it automatically defined as the class name of the resource object.
+Class value for siren root entity is automatically defined using the class name of the resource object.
+You can specify this value with @Class annotation.
 
+```
 @Class("order")
+```
+
+```
+@Class("info,customer")
+```
 
 ### properties
 
-By default, This is the body of the resource object.
-However, you can add this value with @Properties annotation.
-
-@Properties(additionalParameter=42)
+Properties are the response body of the resource object.
 
 ## Entities
 
-@Entity(class="items", rel="app://self/order-items")
+Add sub related entity using @Embed annotation.
+
+```
+@Embed(rel="customer", src="app://self/customer{?customerId}")
+```
+
+And then, request like below in the method.
+
+```
+$this['customer']->addQuery(['customerId' => $customerId])->eager->request();
+```
 
 ### class (Optional)
-
-### rel (Required)
-
-### href (Required)
 
 ### type (Optional)
 
 ## Actions
 
-Action show available behaviors that your resource supports.
+Action can be added using @Action annotation.
 
-@Action(name="add-item", title="Add Item", method="POST", href="self")
+@Action(src="app://self/orderitem{?orderNumber}", method="post")
 
 ### name (Required)
 
@@ -62,11 +71,12 @@ If you defined as "self", the module automatically build url for your resource.
 @Link(rel="next", parameter="{orderNumber}")
 
 ### rel (Required)
-
 ### href (Optional)
 
 
 ## Example
+
+### Order Resource
 
 ```php
 class Order extends ResourceObject
@@ -99,6 +109,7 @@ class Order extends ResourceObject
 }
 ```
 
+### Response
 
 ```json
 {
