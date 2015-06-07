@@ -139,7 +139,7 @@ class Order extends ResourceObject
         {
             "name": "add-item",
             "href": "app://self/orderitem{?orderNumber}",
-            "method": null,
+            "method": "onPost",
             "title": "Add Item",
             "type": "application/x-www-form-urlencoded",
             "fields": [
