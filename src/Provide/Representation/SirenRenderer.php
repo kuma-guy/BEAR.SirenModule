@@ -19,6 +19,7 @@ use JsonSchema\RefResolver;
 use ReflectionClass;
 use Siren\Components\Action;
 use Siren\Components\Entity;
+use Siren\Components\Field;
 use Siren\Components\Link;
 use Siren\Encoders\Encoder;
 
@@ -99,7 +100,17 @@ final class SirenRenderer implements RenderInterface
                 $action = new Action();
                 $action->setName($data['name']);
                 $action->setTitle($data['title']);
-                $action->setHref('test here');
+                $action->setHref($data['href']);
+                $action->setMethod($data['method']);
+
+                foreach ($data['fields'] as $row) {
+                    $field = new Field();
+                    $field->setName($row['name']);
+                    $field->setType($row['type']);
+                    $field->setValue($row['value']);
+
+                    $action->addField($field);
+                }
 
                 $rootEntity->addAction($action);
             }

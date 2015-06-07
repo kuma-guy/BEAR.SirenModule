@@ -98,6 +98,9 @@ final class ActionInterceptor implements MethodInterceptor
                         $field['value'] = $annotation->value;
                         $data['fields'][] = $field;
                     }
+
+                    $data['method'] = $requestMethod;
+                    $data['href'] = $action->src;
                 }
 
                 $resourceObject->body['siren']['actions'][] = $data;
