@@ -109,7 +109,9 @@ class Order extends ResourceObject
 
 ```json
 {
-    "class": [ "order" ],
+    "class": [
+        "order"
+    ],
     "properties": {
         "orderNumber": 42,
         "itemCount": 3,
@@ -118,7 +120,9 @@ class Order extends ResourceObject
     "entities": [
         {
             "href": "app://self/customer{?customerId}",
-            "rel": [ "customer" ],
+            "rel": [
+                "customer"
+            ],
             "properties": {
                 "customerId": "pj123",
                 "name": "Peter Joseph"
@@ -126,11 +130,42 @@ class Order extends ResourceObject
         },
         {
             "href": "app://self/orderitem{?orderNumber}",
-            "rel": [ "order-items" ]
+            "rel": [
+                "order-items"
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "add-item",
+            "href": "app://self/orderitem{?orderNumber}",
+            "method": null,
+            "title": "Add Item",
+            "type": "application/x-www-form-urlencoded",
+            "fields": [
+                {
+                    "name": "orderNumber",
+                    "type": "hidden",
+                    "value": "{?customerId}"
+                },
+                {
+                    "name": "productCode",
+                    "type": "text"
+                },
+                {
+                    "name": "quantity",
+                    "type": "number"
+                }
+            ]
         }
     ],
     "links": [
-        { "rel": [ "self" ], "href": "http://localhost/order?orderNumber=42" }
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "http://localhost/order?orderNumber=42"
+        }
     ]
 }
 ```
