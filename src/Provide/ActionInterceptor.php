@@ -99,7 +99,7 @@ final class ActionInterceptor implements MethodInterceptor
                         $data['fields'][] = $field;
                     }
 
-                    $data['method'] = $requestMethod;
+                    $data['method'] = $action->method;
                     $data['href'] = $action->src;
                 }
 
