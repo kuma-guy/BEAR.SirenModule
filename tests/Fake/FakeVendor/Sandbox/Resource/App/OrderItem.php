@@ -26,7 +26,7 @@ class Orderitem extends ResourceObject
      * @Name("add-item")
      * @Title("Add Item")
      *
-     * @Field(name="orderNumber", type="hidden", value="{?customerId}")
+     * @Field(name="orderNumber", type="hidden", value="{?orderNumber}")
      * @Field(name="productCode", type="text")
      * @Field(name="quantity", type="number")
      *
