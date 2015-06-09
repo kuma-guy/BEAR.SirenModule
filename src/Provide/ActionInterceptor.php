@@ -95,12 +95,11 @@ final class ActionInterceptor implements MethodInterceptor
                         $field = [];
                         $field['name'] = $annotation->name;
                         $field['type'] = $annotation->type;
-                        $field['value'] = $annotation->value;
+                        $field['value'] = $this->replaceParameters($annotation->value, $query);
                         $data['fields'][] = $field;
                     }
-
                     $data['method'] = $action->method;
-                    $data['href'] = $action->src;
+                    $data['href'] = $this->replaceQueryParameter($action->src, $query);
                 }
 
                 $resourceObject->body['siren']['actions'][] = $data;
@@ -110,6 +109,21 @@ final class ActionInterceptor implements MethodInterceptor
                 //throw new ActionException($action->src, 500, $e);
             }
         }
+    }
+
+    private function replaceParameters($parameter, $query)
+    {
+        foreach ($query as $key => $value) {
+            return str_replace('{?' . $key . '}', $value, $parameter);
+        }
+    }
+
+    private function replaceQueryParameter($src, $query)
+    {
+        foreach ($query as $key => $value) {
+            $src = str_replace('{?' . $key . '}', '?' . $key . '=' . $value, $src);
+        }
+        return $src;
     }
 
     /**
