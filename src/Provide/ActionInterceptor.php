@@ -98,7 +98,7 @@ final class ActionInterceptor implements MethodInterceptor
                         $field['value'] = $this->replaceParameters($annotation->value, $query);
                         $data['fields'][] = $field;
                     }
-                    $data['method'] = $action->method;
+                    $data['method'] = strtoupper($action->method);
                     $data['href'] = $this->replaceQueryParameter($action->src, $query);
                 }
 
