@@ -10,15 +10,6 @@ Siren [https://github.com/kevinswiber/siren]
 ### class (Optional)
 
 Class value for siren root entity is automatically defined using the class name of the resource object.
-You can specify this value with @Class annotation.
-
-```
-@Class("order")
-```
-
-```
-@Class("info,customer")
-```
 
 ### properties
 
