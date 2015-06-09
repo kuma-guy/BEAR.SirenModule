@@ -100,7 +100,7 @@ final class SirenRenderer implements RenderInterface
                 $action = new Action();
                 $action->setName($data['name']);
                 $action->setTitle($data['title']);
-                $action->setHref($data['href']);
+                $action->setHref($this->getHref(new Uri($data['href'])));
                 $action->setMethod($data['method']);
 
                 foreach ($data['fields'] as $row) {
@@ -108,7 +108,6 @@ final class SirenRenderer implements RenderInterface
                     $field->setName($row['name']);
                     $field->setType($row['type']);
                     $field->setValue($row['value']);
-
                     $action->addField($field);
                 }
 
