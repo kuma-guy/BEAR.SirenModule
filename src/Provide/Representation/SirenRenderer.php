@@ -122,7 +122,7 @@ final class SirenRenderer implements RenderInterface
                     $entity = new Entity();
                     $entity->setProperties($body[$annotation->rel])
                         ->addRel($annotation->rel)
-                        ->setHref($annotation->src);
+                        ->setHref($this->replaceQueryParameter($annotation->src, $body[$annotation->rel]));
                 }
                 /** @var $entity Entity */
                 $rootEntity->addEntity($entity);
@@ -137,6 +137,17 @@ final class SirenRenderer implements RenderInterface
         // TODO: Related Link
 
         return $rootEntity;
+    }
+
+    private function replaceQueryParameter($query, $properties)
+    {
+        foreach ($properties as $key => $value) {
+            if (strstr($query, $key)) {
+                return str_replace('{?' . $key . '}', '?' . $key . '=' . $value, $query);
+            }
+        }
+
+        return $query;
     }
 
     private function getClass(ReflectionClass $ref)
