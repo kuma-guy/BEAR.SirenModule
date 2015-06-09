@@ -23,7 +23,7 @@ Add sub related entity using @Embed annotation.
 @Embed(rel="customer", src="app://self/customer{?customerId}")
 ```
 
-And then, request like below in the method.
+And then, get the entity by request in the method like below.
 
 ```
 $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
@@ -63,7 +63,6 @@ If you defined as "self", the module automatically build url for your resource.
 
 ### rel (Required)
 ### href (Optional)
-
 
 ## Example
 
