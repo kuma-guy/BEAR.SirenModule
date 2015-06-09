@@ -128,15 +128,15 @@ class Order extends ResourceObject
     "actions": [
         {
             "name": "add-item",
-            "href": "app://self/orderitem{?orderNumber}",
-            "method": "onPost",
+            "href": "http://localhost/orderitem?orderNumber=42",
+            "method": "post",
             "title": "Add Item",
             "type": "application/x-www-form-urlencoded",
             "fields": [
                 {
                     "name": "orderNumber",
                     "type": "hidden",
-                    "value": "{?customerId}"
+                    "value": "42"
                 },
                 {
                     "name": "productCode",
