@@ -109,7 +109,7 @@ class Order extends ResourceObject
     },
     "entities": [
         {
-            "href": "app://self/customer{?customerId}",
+            "href": "/customer?customerId=pj123",
             "rel": [
                 "customer"
             ],
@@ -119,7 +119,7 @@ class Order extends ResourceObject
             }
         },
         {
-            "href": "app://self/orderitem{?orderNumber}",
+            "href": "/orderitem{?orderNumber%7D=",
             "rel": [
                 "order-items"
             ]
@@ -128,8 +128,8 @@ class Order extends ResourceObject
     "actions": [
         {
             "name": "add-item",
-            "href": "http://localhost/orderitem?orderNumber=42",
-            "method": "post",
+            "href": "/orderitem?orderNumber=42",
+            "method": "POST",
             "title": "Add Item",
             "type": "application/x-www-form-urlencoded",
             "fields": [
@@ -154,7 +154,7 @@ class Order extends ResourceObject
             "rel": [
                 "self"
             ],
-            "href": "http://localhost/order?orderNumber=42"
+            "href": "/order?orderNumber=42"
         }
     ]
 }
