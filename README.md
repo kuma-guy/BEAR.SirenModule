@@ -100,7 +100,7 @@ class Order extends ResourceObject
 ```json
 {
     "class": [
-        "order"
+        "orders"
     ],
     "properties": {
         "orderNumber": 42,
@@ -154,7 +154,7 @@ class Order extends ResourceObject
             "rel": [
                 "self"
             ],
-            "href": "/order?orderNumber=42"
+            "href": "/orders?orderNumber=42"
         }
     ]
 }
