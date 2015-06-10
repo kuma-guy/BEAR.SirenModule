@@ -110,7 +110,6 @@ final class SirenRenderer implements RenderInterface
                     $field->setValue($row['value']);
                     $action->addField($field);
                 }
-
                 $rootEntity->addAction($action);
             }
         }
@@ -120,9 +119,13 @@ final class SirenRenderer implements RenderInterface
             if ($annotation instanceof Embed) {
                 if (isset($body[$annotation->rel])) {
                     $entity = new Entity();
+
+                    $replacedSrc = $this->replaceQueryParameter($annotation->src, $body[$annotation->rel]);
+                    $href = $this->getHref(new Uri($replacedSrc));
+
                     $entity->setProperties($body[$annotation->rel])
                         ->addRel($annotation->rel)
-                        ->setHref($this->replaceQueryParameter($annotation->src, $body[$annotation->rel]));
+                        ->setHref($href);
                 }
                 /** @var $entity Entity */
                 $rootEntity->addEntity($entity);
@@ -139,6 +142,13 @@ final class SirenRenderer implements RenderInterface
         return $rootEntity;
     }
 
+    /**
+     * Replace parameter holder with actual value.
+     *
+     * @param $query
+     * @param $properties
+     * @return mixed
+     */
     private function replaceQueryParameter($query, $properties)
     {
         foreach ($properties as $key => $value) {
@@ -150,77 +160,29 @@ final class SirenRenderer implements RenderInterface
         return $query;
     }
 
+    /**
+     * Get Class Name
+     *
+     * @param ReflectionClass $ref
+     * @return string
+     */
     private function getClass(ReflectionClass $ref)
     {
         return lcfirst($ref->getParentClass()->getShortName());
     }
 
+    /**
+     * Get Href
+     *
+     * @param Uri $uri
+     * @return string
+     */
     private function getHref(Uri $uri)
     {
-        $siteUrl = $this->url->get();
         $query = $uri->query ? '?' . http_build_query($uri->query) : '';
         $path = $uri->path . $query;
         $link = $this->getReverseMatchedLink($path);
-        $link = $siteUrl . $link;
 
         return $link;
-    }
-
-    private function getActions($currentMethod, ReflectionClass $ref)
-    {
-        $actions = [];
-
-        $currentMethodName = 'on' . ucfirst($currentMethod);
-        $methods = $ref->getMethods();
-
-        foreach ($methods as $method) {
-            // Don't build action if method does not start with "on".
-            if (strpos($method->name, 'on') !== 0) {
-                continue;
-            }
-            // Don't build action if current method.
-            if ($currentMethodName == $method->name) {
-                continue;
-            }
-
-            // Build action
-            $action = new Action();
-            $annotations = $this->reader->getMethodAnnotations($method);
-
-            foreach ($annotations as $annotation) {
-                if ($annotation instanceof Name) {
-                    $action->setName($annotation->value);
-                } else {
-                    // Name is required.
-                }
-                if ($annotation instanceof Title) {
-                    $action->setTitle($annotation->value);
-                }
-            }
-
-            // TODO:
-            $action->setHref("http://api.x.io/orders/42/items");
-
-            switch ($method->name) {
-                case 'onGet':
-                    $action->setMethod('GET');
-                    break;
-                case 'onPost':
-                    $action->setMethod('POST');
-                    break;
-                case 'onPut':
-                    $action->setMethod('PUT');
-                    break;
-                case 'onDelete':
-                    $action->setMethod('DELETE');
-                    break;
-                default:
-                    continue;
-            }
-
-            $actions[] = $action;
-        }
-
-        return $actions;
     }
 }
