@@ -108,8 +108,7 @@ final class SirenRenderer implements RenderInterface
             if ($annotation instanceof Embed) {
                 if (isset($body[$annotation->rel])) {
                     $entity = new Entity();
-
-                    $replacedSrc = $this->replaceQueryParameter($annotation->src, $body[$annotation->rel]);
+                    $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
                     $href = $this->getHref(new Uri($replacedSrc));
 
                     $entity->setProperties($body[$annotation->rel])
@@ -138,9 +137,17 @@ final class SirenRenderer implements RenderInterface
      * @param $properties
      * @return mixed
      */
-    private function replaceQueryParameter($query, $properties)
+    private function replaceQueryParameter($rel, $query, $body)
     {
-        foreach ($properties as $key => $value) {
+        if (isset($body[$rel])) {
+            foreach ($body[$rel] as $key => $value) {
+                if (strstr($query, $key)) {
+                    return str_replace('{?' . $key . '}', '?' . $key . '=' . $value, $query);
+                }
+            }
+        }
+
+        foreach ($body as $key => $value) {
             if (strstr($query, $key)) {
                 return str_replace('{?' . $key . '}', '?' . $key . '=' . $value, $query);
             }

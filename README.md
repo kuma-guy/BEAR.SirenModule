@@ -119,7 +119,7 @@ class Order extends ResourceObject
             }
         },
         {
-            "href": "/orderitem{?orderNumber%7D=",
+            "href": "/orderitem?orderNumber=42",
             "rel": [
                 "order-items"
             ]
