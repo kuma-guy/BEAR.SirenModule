@@ -1,5 +1,5 @@
 {
-  "name": "bear/siren-renderer",
+  "name": "shingo-kumagai/siren-renderer",
   "description": "",
   "license": "MIT",
   "authors": [
@@ -9,7 +9,8 @@
   ],
   "require": {
     "bear/resource": "~1.1.1",
-    "danielgsims/php-siren": "0.9"
+    "danielgsims/php-siren": "0.9",
+    "bear/sunday": "1.x-dev"
   },
   "autoload": {
     "psr-4": {
