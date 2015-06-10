@@ -111,6 +111,12 @@ final class ActionInterceptor implements MethodInterceptor
         }
     }
 
+    /**
+     * @param $parameter
+     * @param $query
+     *
+     * @return mixed
+     */
     private function replaceParameters($parameter, $query)
     {
         foreach ($query as $key => $value) {
@@ -118,6 +124,12 @@ final class ActionInterceptor implements MethodInterceptor
         }
     }
 
+    /**
+     * @param $src
+     * @param $query
+     *
+     * @return mixed
+     */
     private function replaceQueryParameter($src, $query)
     {
         foreach ($query as $key => $value) {

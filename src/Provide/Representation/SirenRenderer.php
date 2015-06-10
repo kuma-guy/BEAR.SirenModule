@@ -61,6 +61,12 @@ final class SirenRenderer implements RenderInterface
         return $uri;
     }
 
+    /**
+     * @param ResourceObject $ro
+     * @param array $annotations
+     *
+     * @return Entity
+     */
     private function getSiren(ResourceObject $ro, array $annotations)
     {
         // Get Reflection Class For Resource

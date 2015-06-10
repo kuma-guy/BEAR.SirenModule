@@ -14,7 +14,7 @@ class SirenRendererTest extends \PHPUnit_Framework_TestCase
         // request
         $order = $resource
             ->get
-            ->uri('app://self/order')
+            ->uri('app://self/orders')
             ->withQuery(['orderNumber' => 42])
             ->eager
             ->request();
