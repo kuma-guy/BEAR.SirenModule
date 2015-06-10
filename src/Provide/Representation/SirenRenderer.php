@@ -10,12 +10,7 @@ use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\RenderInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
-use BEAR\SirenRenderer\Annotation\Action as SirenAction;
-use BEAR\SirenRenderer\Annotation\Name;
-use BEAR\SirenRenderer\Annotation\Title;
-use BEAR\SirenRenderer\Provide\UrlProvider;
 use Doctrine\Common\Annotations\Reader;
-use JsonSchema\RefResolver;
 use ReflectionClass;
 use Siren\Components\Action;
 use Siren\Components\Entity;
@@ -30,15 +25,9 @@ final class SirenRenderer implements RenderInterface
      */
     private $reader;
 
-    /**
-     * @var UrlProviderInterface
-     */
-    private $url;
-
     public function __construct(Reader $reader)
     {
         $this->reader = $reader;
-        $this->url = new UrlProvider;
     }
 
     /**
