@@ -1,4 +1,4 @@
-# BEAR.SirenRenderer
+# BEAR.Siren
 
 Siren renderer for BEAR.Sunday
 It overrides default renderer and represents your resource in Siren format.
@@ -9,7 +9,7 @@ Siren [https://github.com/kevinswiber/siren]
 
 ### class (Optional)
 
-Class value for siren root entity is automatically defined using the class name of the resource object.
+@Class
 
 ### properties
 
