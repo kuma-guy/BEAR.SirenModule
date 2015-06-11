@@ -4,11 +4,11 @@
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace BEAR\SirenRenderer;
+namespace BEAR\SirenModule;
 
 use BEAR\Resource\RenderInterface;
-use BEAR\SirenRenderer\Annotation\Action;
-use BEAR\SirenRenderer\Annotation\EmbedResource;
+use BEAR\SirenModule\Annotation\Action;
+use BEAR\SirenModule\Annotation\EmbedResource;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Di\AbstractModule;

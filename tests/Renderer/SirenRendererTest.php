@@ -1,6 +1,6 @@
 <?php
 
-namespace BEAR\SirenRenderer;
+namespace BEAR\SirenModule;
 
 use BEAR\Resource\ResourceInterface;
 use FakeVendor\Sandbox\AppModule;

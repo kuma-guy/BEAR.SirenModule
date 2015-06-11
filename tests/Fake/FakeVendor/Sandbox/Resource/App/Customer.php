@@ -4,7 +4,7 @@ namespace FakeVendor\Sandbox\Resource\App;
 
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenRenderer\Annotation\SirenClass;
+use BEAR\SirenModule\Annotation\SirenClass;
 
 class Customer extends ResourceObject
 {

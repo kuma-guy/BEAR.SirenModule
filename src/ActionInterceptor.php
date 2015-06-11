@@ -4,16 +4,16 @@
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace BEAR\SirenRenderer;
+namespace BEAR\SirenModule;
 
 use BEAR\Resource\Exception\BadRequestException;
 use BEAR\Resource\FactoryInterface;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenRenderer\Annotation\Action;
-use BEAR\SirenRenderer\Annotation\Field;
-use BEAR\SirenRenderer\Annotation\Name;
-use BEAR\SirenRenderer\Annotation\Title;
+use BEAR\SirenModule\Annotation\Action;
+use BEAR\SirenModule\Annotation\Field;
+use BEAR\SirenModule\Annotation\Name;
+use BEAR\SirenModule\Annotation\Title;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;

@@ -5,7 +5,7 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace BEAR\SirenRenderer\Annotation;
+namespace BEAR\SirenModule\Annotation;
 
 /**
  * @Annotation

@@ -4,13 +4,13 @@
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace BEAR\SirenRenderer;
+namespace BEAR\SirenModule;
 
 use BEAR\Resource\RenderInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
-use BEAR\SirenRenderer\Annotation\EmbedLink;
-use BEAR\SirenRenderer\Annotation\EmbedResource;
+use BEAR\SirenModule\Annotation\EmbedLink;
+use BEAR\SirenModule\Annotation\EmbedResource;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use Siren\Components\Action;

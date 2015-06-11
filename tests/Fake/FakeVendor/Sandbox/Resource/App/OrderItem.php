@@ -3,9 +3,9 @@
 namespace FakeVendor\Sandbox\Resource\App;
 
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenRenderer\Annotation\Field;
-use BEAR\SirenRenderer\Annotation\Name;
-use BEAR\SirenRenderer\Annotation\Title;
+use BEAR\SirenModule\Annotation\Field;
+use BEAR\SirenModule\Annotation\Name;
+use BEAR\SirenModule\Annotation\Title;
 
 class Orderitem extends ResourceObject
 {

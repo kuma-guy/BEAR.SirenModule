@@ -3,7 +3,7 @@
 namespace FakeVendor\Sandbox;
 
 use BEAR\Resource\Module\ResourceModule;
-use BEAR\SirenRenderer\SirenModule;
+use BEAR\SirenModule\SirenModule;
 use Ray\Di\AbstractModule;
 
 class AppModule extends AbstractModule
