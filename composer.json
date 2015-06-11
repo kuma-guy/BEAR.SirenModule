@@ -8,13 +8,13 @@
     }
   ],
   "require": {
-    "bear/resource": "~1.1.1",
-    "danielgsims/php-siren": "0.9",
-    "bear/sunday": "1.x-dev"
+    "bear/resource": "~1.0",
+    "bear/sunday": "~1.0",
+    "danielgsims/php-siren": "~0.9"
   },
   "autoload": {
     "psr-4": {
-      "BEAR\\SirenRenderer\\": "src/"
+      "BEAR\\SirenModule\\": "src/"
     },
     "files": ["src-file/doctrine_annotations.php"]
   },
