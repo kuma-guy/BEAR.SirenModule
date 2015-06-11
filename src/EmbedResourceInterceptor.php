@@ -7,15 +7,9 @@
 namespace BEAR\SirenRenderer;
 
 use BEAR\Resource\Exception\BadRequestException;
-use BEAR\Resource\FactoryInterface;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenRenderer\Annotation\Action;
-use BEAR\SirenRenderer\Annotation\EmbedLink;
 use BEAR\SirenRenderer\Annotation\EmbedResource;
-use BEAR\SirenRenderer\Annotation\Field;
-use BEAR\SirenRenderer\Annotation\Name;
-use BEAR\SirenRenderer\Annotation\Title;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;

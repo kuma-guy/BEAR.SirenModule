@@ -6,7 +6,6 @@
  */
 namespace BEAR\SirenRenderer;
 
-use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\RenderInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;

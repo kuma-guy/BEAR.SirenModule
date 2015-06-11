@@ -5,8 +5,8 @@ namespace FakeVendor\Sandbox\Resource\App;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\SirenRenderer\Annotation\Action;
-use BEAR\SirenRenderer\Annotation\EmbedResource;
 use BEAR\SirenRenderer\Annotation\EmbedLink;
+use BEAR\SirenRenderer\Annotation\EmbedResource;
 
 class Orders extends ResourceObject
 {
