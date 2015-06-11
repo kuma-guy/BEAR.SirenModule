@@ -1,6 +1,8 @@
 <?php
 
 require_once dirname(__DIR__) . '/src/Annotation/Action.php';
+require_once dirname(__DIR__) . '/src/Annotation/EmbedResource.php';
+require_once dirname(__DIR__) . '/src/Annotation/EmbedLink.php';
 require_once dirname(__DIR__) . '/src/Annotation/Field.php';
 require_once dirname(__DIR__) . '/src/Annotation/Link.php';
 require_once dirname(__DIR__) . '/src/Annotation/Name.php';

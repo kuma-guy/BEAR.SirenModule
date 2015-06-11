@@ -2,10 +2,11 @@
 
 namespace FakeVendor\Sandbox\Resource\App;
 
-use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\SirenRenderer\Annotation\Action;
+use BEAR\SirenRenderer\Annotation\EmbedResource;
+use BEAR\SirenRenderer\Annotation\EmbedLink;
 
 class Orders extends ResourceObject
 {
@@ -17,8 +18,8 @@ class Orders extends ResourceObject
     }
 
     /**
-     * @Embed(rel="customer", src="app://self/customer{?customerId}")
-     * @Embed(rel="order-items", src="app://self/orderitem{?orderNumber}")
+     * @EmbedResource(rel="customer", src="app://self/customer{?customerId}")
+     * @EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
      * @Action(src="app://self/orderitem{?orderNumber}", method="post")
      *
      * @param $orderNumber
@@ -31,9 +32,8 @@ class Orders extends ResourceObject
         $this['status'] = "pending";
 
         $customerId = "pj123";
-
         $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
-        $this['order-items'] = [];
+        //$this['order-items'] = [];
 
         return $this;
     }

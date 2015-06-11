@@ -10,6 +10,8 @@ use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\RenderInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
+use BEAR\SirenRenderer\Annotation\EmbedLink;
+use BEAR\SirenRenderer\Annotation\EmbedResource;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use Siren\Components\Action;
@@ -111,7 +113,7 @@ final class SirenRenderer implements RenderInterface
 
         // Sub Entity
         foreach ($annotations as $annotation) {
-            if ($annotation instanceof Embed) {
+            if ($annotation instanceof EmbedResource) {
                 if (isset($body[$annotation->rel])) {
                     $entity = new Entity();
                     $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
@@ -121,6 +123,16 @@ final class SirenRenderer implements RenderInterface
                         ->addRel($annotation->rel)
                         ->setHref($href);
                 }
+                /** @var $entity Entity */
+                $rootEntity->addEntity($entity);
+                unset($body[$annotation->rel]);
+            }
+            if ($annotation instanceof EmbedLink) {
+                $entity = new Entity();
+                $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
+                $href = $this->getHref(new Uri($replacedSrc));
+
+                $entity->addRel($annotation->rel)->setHref($href);
                 /** @var $entity Entity */
                 $rootEntity->addEntity($entity);
                 unset($body[$annotation->rel]);
