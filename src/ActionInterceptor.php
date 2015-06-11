@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace BEAR\SirenRenderer\Provide;
+namespace BEAR\SirenRenderer;
 
 use BEAR\Resource\Exception\BadRequestException;
 use BEAR\Resource\FactoryInterface;

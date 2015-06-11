@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace BEAR\SirenRenderer\Provide\Representation;
+namespace BEAR\SirenRenderer;
 
 use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\RenderInterface;
