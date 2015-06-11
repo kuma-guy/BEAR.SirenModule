@@ -2,7 +2,7 @@
 
 Siren support for BEAR.Sunday
 
-*Siren renderer*
+**Siren renderer**
 It overrides default renderer and represents your resource in Siren format.
 
 Siren [https://github.com/kevinswiber/siren]
