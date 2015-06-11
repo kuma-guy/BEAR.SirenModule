@@ -18,6 +18,7 @@ class Customer extends ResourceObject
      * @SirenClass(name="info,customer")
      *
      * @param $customerId
+     *
      * @return $this
      */
     public function onGet($customerId)
@@ -27,8 +28,9 @@ class Customer extends ResourceObject
         // links :  { "rel": [ "self" ], "href": "http://api.x.io/customers/pj123" }
 
         // Going to be properties
-        $this['customerId'] = "pj123";
-        $this['name'] = "Peter Joseph";
+        $this['customerId'] = 'pj123';
+        $this['name'] = 'Peter Joseph';
+
         return $this;
     }
 }

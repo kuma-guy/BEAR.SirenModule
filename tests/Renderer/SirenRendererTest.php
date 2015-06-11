@@ -24,7 +24,6 @@ class SirenRendererTest extends \PHPUnit_Framework_TestCase
         var_dump($string);
         die();
 
-
         $this->assertSame($expect, (string) $news);
     }
 }

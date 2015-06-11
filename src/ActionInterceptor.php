@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the BEAR.SirenRenderer package
  *
@@ -56,11 +57,12 @@ final class ActionInterceptor implements MethodInterceptor
         $this->addActions($actions, $resourceObject, $query);
         // request (method can modify embedded resource)
         $result = $invocation->proceed();
+
         return $result;
     }
 
     /**
-     * @param Action[]        $actions
+     * @param Action[]       $actions
      * @param ResourceObject $resourceObject
      * @param array          $query
      */
@@ -106,7 +108,6 @@ final class ActionInterceptor implements MethodInterceptor
                 }
 
                 $resourceObject->body['siren']['actions'][] = $data;
-
             } catch (BadRequestException $e) {
                 // wrap ResourceNotFound or Uri exception
                 //throw new ActionException($action->src, 500, $e);
@@ -138,6 +139,7 @@ final class ActionInterceptor implements MethodInterceptor
         foreach ($query as $key => $value) {
             $src = str_replace('{?' . $key . '}', '?' . $key . '=' . $value, $src);
         }
+
         return $src;
     }
 
@@ -152,6 +154,7 @@ final class ActionInterceptor implements MethodInterceptor
         if (substr($uri, 0, 1) == '/') {
             $uri = "{$resourceObject->uri->scheme}://{$resourceObject->uri->host}" . $uri;
         }
+
         return $uri;
     }
     /**
@@ -167,6 +170,7 @@ final class ActionInterceptor implements MethodInterceptor
         foreach ($params as $param) {
             $namedParameters[$param->name] = array_shift($args);
         }
+
         return $namedParameters;
     }
 }

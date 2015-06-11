@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the BEAR.SirenRenderer package
  *
@@ -87,6 +88,7 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         if (substr($uri, 0, 1) == '/') {
             $uri = "{$resourceObject->uri->scheme}://{$resourceObject->uri->host}" . $uri;
         }
+
         return $uri;
     }
 

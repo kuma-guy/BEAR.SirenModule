@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the BEAR.SirenRenderer package
  *
@@ -49,6 +50,7 @@ final class SirenRenderer implements RenderInterface
         $response = json_encode($response);
 
         $ro->view = $response;
+
         return $ro->view;
     }
 
@@ -64,7 +66,7 @@ final class SirenRenderer implements RenderInterface
 
     /**
      * @param ResourceObject $ro
-     * @param array $annotations
+     * @param array          $annotations
      *
      * @return Entity
      */
@@ -122,7 +124,7 @@ final class SirenRenderer implements RenderInterface
                         ->addRel($annotation->rel)
                         ->setHref($href);
                 }
-                /** @var $entity Entity */
+                /* @var $entity Entity */
                 $rootEntity->addEntity($entity);
                 unset($body[$annotation->rel]);
             }
@@ -132,7 +134,7 @@ final class SirenRenderer implements RenderInterface
                 $href = $this->getHref(new Uri($replacedSrc));
 
                 $entity->addRel($annotation->rel)->setHref($href);
-                /** @var $entity Entity */
+                /* @var $entity Entity */
                 $rootEntity->addEntity($entity);
                 unset($body[$annotation->rel]);
             }
@@ -152,6 +154,7 @@ final class SirenRenderer implements RenderInterface
      *
      * @param $query
      * @param $properties
+     *
      * @return mixed
      */
     private function replaceQueryParameter($rel, $query, $body)
@@ -177,6 +180,7 @@ final class SirenRenderer implements RenderInterface
      * Get Class Name
      *
      * @param ReflectionClass $ref
+     *
      * @return string
      */
     private function getClass(ReflectionClass $ref)
@@ -188,6 +192,7 @@ final class SirenRenderer implements RenderInterface
      * Get Href
      *
      * @param Uri $uri
+     *
      * @return string
      */
     private function getHref(Uri $uri)

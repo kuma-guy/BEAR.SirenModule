@@ -7,11 +7,12 @@ use BEAR\SirenModule\Annotation\Field;
 use BEAR\SirenModule\Annotation\Name;
 use BEAR\SirenModule\Annotation\Title;
 
-class Orderitem extends ResourceObject
+class OrderItem extends ResourceObject
 {
     /**
      * Class(name="items,collection")?
      * Rel?
+     *
      * @return $this
      */
     public function onGet($orderNumber)
