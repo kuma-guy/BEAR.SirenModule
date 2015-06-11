@@ -47,7 +47,7 @@ final class SirenRenderer implements RenderInterface
         $siren = $this->getSiren($ro, $annotations);
 
         $response = (new Encoder)->encode($siren);
-        $response = json_encode($response);
+        $response = json_encode($response, JSON_PRETTY_PRINT);
 
         $ro->view = $response;
 
