@@ -33,7 +33,6 @@ class Orders extends ResourceObject
 
         $customerId = "pj123";
         $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
-        //$this['order-items'] = [];
 
         return $this;
     }

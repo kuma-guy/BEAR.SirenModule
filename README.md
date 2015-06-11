@@ -75,8 +75,8 @@ If you defined as "self", the module automatically build url for your resource.
 class Order extends ResourceObject
 {
     /**
-     * @Embed(rel="customer", src="app://self/customer{?customerId}")
-     * @Embed(rel="order-items", src="app://self/orderitem{?orderNumber}")
+     * @EmbedResource(rel="customer", src="app://self/customer{?customerId}")
+     * @EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
      * @Action(src="app://self/orderitem{?orderNumber}", method="post")
      *
      * @param $orderNumber
@@ -85,13 +85,11 @@ class Order extends ResourceObject
     public function onGet($orderNumber)
     {
         $this['orderNumber'] = $orderNumber;
-        $this['itemCount']   = 3;
-        $this['status']      = "pending";
+        $this['itemCount'] = 3;
+        $this['status'] = "pending";
 
         $customerId = "pj123";
-
         $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
-        $this['order-items'] = [];
 
         return $this;
     }
