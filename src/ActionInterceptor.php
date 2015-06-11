@@ -24,13 +24,16 @@ final class ActionInterceptor implements MethodInterceptor
      * @var \BEAR\Resource\ResourceInterface
      */
     private $resource;
+
     /**
      * @var Reader
      */
     private $reader;
+
     /**
      * @param ResourceInterface $resource
      * @param Reader            $reader
+     * @param FactoryInterface  $factory
      */
     public function __construct(ResourceInterface $resource, Reader $reader, FactoryInterface $factory)
     {
