@@ -20,10 +20,12 @@ final class EmbedResourceInterceptor implements MethodInterceptor
      * @var \BEAR\Resource\ResourceInterface
      */
     private $resource;
+
     /**
      * @var Reader
      */
     private $reader;
+
     /**
      * @param ResourceInterface $resource
      * @param Reader            $reader
@@ -47,8 +49,10 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         $this->embedResource($embeds, $resourceObject, $query);
         // request (method can modify embedded resource)
         $result = $invocation->proceed();
+
         return $result;
     }
+
     /**
      * @param Embed[]        $embeds
      * @param ResourceObject $resourceObject
@@ -84,6 +88,7 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         }
         return $uri;
     }
+
     /**
      * @param MethodInvocation $invocation
      *
@@ -97,6 +102,7 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         foreach ($params as $param) {
             $namedParameters[$param->name] = array_shift($args);
         }
+
         return $namedParameters;
     }
 }
