@@ -118,14 +118,7 @@ final class SirenRenderer implements RenderInterface
                 $this->embedResource($body, $annotation, $rootEntity);
             }
             if ($annotation instanceof EmbedLink) {
-                $entity = new Entity();
-                $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
-                $href = $this->getHref(new Uri($replacedSrc));
-
-                $entity->addRel($annotation->rel)->setHref($href);
-                /* @var $entity Entity */
-                $rootEntity->addEntity($entity);
-                unset($body[$annotation->rel]);
+                $this->embedLink($body, $annotation, $rootEntity);
             }
         }
 
@@ -198,7 +191,7 @@ final class SirenRenderer implements RenderInterface
      * @param object $annotation
      * @param Entity $rootEntity
      */
-    private function embedResource(array &$body, $annotation, $rootEntity)
+    private function embedResource(array &$body, $annotation, Entity $rootEntity)
     {
         if (isset($body[$annotation->rel])) {
             $entity = new Entity();
@@ -209,6 +202,23 @@ final class SirenRenderer implements RenderInterface
                 ->addRel($annotation->rel)
                 ->setHref($href);
         }
+        /* @var $entity Entity */
+        $rootEntity->addEntity($entity);
+        unset($body[$annotation->rel]);
+    }
+
+    /**
+     * @param array  $body
+     * @param object $annotation
+     * @param Entity $rootEntity
+     */
+    private function embedLink(array &$body, $annotation, Entity $rootEntity)
+    {
+        $entity = new Entity();
+        $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
+        $href = $this->getHref(new Uri($replacedSrc));
+
+        $entity->addRel($annotation->rel)->setHref($href);
         /* @var $entity Entity */
         $rootEntity->addEntity($entity);
         unset($body[$annotation->rel]);
