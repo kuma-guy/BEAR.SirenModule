@@ -61,7 +61,7 @@ Action can be added using `@Action` annotation.
 
 As a example, the actual method has to be annotated like below
 
-```
+```php
     /**
      * @Name("add-item")
      * @Title("Add Item")
