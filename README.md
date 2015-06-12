@@ -23,7 +23,8 @@ Properties are the response body of the resource object.
 Add sub related entity using @Embed annotation.
 
 ```
-@Embed(rel="customer", src="app://self/customer{?customerId}")
+@EmbedResource(rel="customer", src="app://self/customer{?customerId}")
+@EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
 ```
 
 And then, get the entity by request in the method like below.
