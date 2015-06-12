@@ -109,8 +109,6 @@ You can add user control for the action with `@Field` annotation.
 #### Order Resource
 
 ```php
-class Order extends ResourceObject
-{
     /**
      * @SirenClass(name="order")
      * @EmbedResource(rel="customer", src="app://self/customer{?customerId}")
@@ -132,7 +130,54 @@ class Order extends ResourceObject
 
         return $this;
     }
-}
+```
+
+#### Customer Resource
+
+```php
+    /**
+     * @SirenClass(name="info,customer")
+     *
+     * @param $customerId
+     *
+     * @return $this
+     */
+    public function onGet($customerId)
+    {
+        $this['customerId'] = 'pj123';
+        $this['name'] = 'Peter Joseph';
+
+        return $this;
+    }
+```
+
+#### Order Item Resource
+
+```php
+    /**
+     * @SirenClass(name="items,collection")
+     *
+     * @return $this
+     */
+    public function onGet($orderNumber)
+    {
+        return $this;
+    }
+
+    /**
+     * @Name("add-item")
+     * @Title("Add Item")
+     *
+     * @Field(name="orderNumber", type="hidden", value="{?orderNumber}")
+     * @Field(name="productCode", type="text")
+     * @Field(name="quantity", type="number")
+     *
+     * @param int $customerId
+     */
+    public function onPost($customerId)
+    {
+        // do something...
+    }
 ```
 
 #### Response
