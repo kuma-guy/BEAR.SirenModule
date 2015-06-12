@@ -1,17 +1,17 @@
 <?php
+
 /**
- * This file is part of the BEAR.SirenRenderer package
+ * This file is part of the BEAR.SirenModule package
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace BEAR\SirenRenderer\Provide\Representation;
+namespace BEAR\SirenModule;
 
-use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\RenderInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
-use BEAR\SirenRenderer\Annotation\EmbedLink;
-use BEAR\SirenRenderer\Annotation\EmbedResource;
+use BEAR\SirenModule\Annotation\EmbedLink;
+use BEAR\SirenModule\Annotation\EmbedResource;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use Siren\Components\Action;
@@ -50,6 +50,7 @@ final class SirenRenderer implements RenderInterface
         $response = json_encode($response);
 
         $ro->view = $response;
+
         return $ro->view;
     }
 
@@ -65,7 +66,7 @@ final class SirenRenderer implements RenderInterface
 
     /**
      * @param ResourceObject $ro
-     * @param array $annotations
+     * @param array          $annotations
      *
      * @return Entity
      */
@@ -94,48 +95,17 @@ final class SirenRenderer implements RenderInterface
         // Actions
         if (isset($body['siren']['actions'])) {
             foreach ($body['siren']['actions'] as $data) {
-                $action = new Action();
-                $action->setName($data['name']);
-                $action->setTitle($data['title']);
-                $action->setHref($this->getHref(new Uri($data['href'])));
-                $action->setMethod($data['method']);
-
-                foreach ($data['fields'] as $row) {
-                    $field = new Field();
-                    $field->setName($row['name']);
-                    $field->setType($row['type']);
-                    $field->setValue($row['value']);
-                    $action->addField($field);
-                }
-                $rootEntity->addAction($action);
+                $this->addAction($data, $rootEntity);
             }
         }
 
         // Sub Entity
         foreach ($annotations as $annotation) {
             if ($annotation instanceof EmbedResource) {
-                if (isset($body[$annotation->rel])) {
-                    $entity = new Entity();
-                    $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
-                    $href = $this->getHref(new Uri($replacedSrc));
-
-                    $entity->setProperties($body[$annotation->rel])
-                        ->addRel($annotation->rel)
-                        ->setHref($href);
-                }
-                /** @var $entity Entity */
-                $rootEntity->addEntity($entity);
-                unset($body[$annotation->rel]);
+                $this->embedResource($body, $annotation, $rootEntity);
             }
             if ($annotation instanceof EmbedLink) {
-                $entity = new Entity();
-                $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
-                $href = $this->getHref(new Uri($replacedSrc));
-
-                $entity->addRel($annotation->rel)->setHref($href);
-                /** @var $entity Entity */
-                $rootEntity->addEntity($entity);
-                unset($body[$annotation->rel]);
+                $this->embedLink($body, $annotation, $rootEntity);
             }
         }
 
@@ -153,6 +123,7 @@ final class SirenRenderer implements RenderInterface
      *
      * @param $query
      * @param $properties
+     *
      * @return mixed
      */
     private function replaceQueryParameter($rel, $query, $body)
@@ -178,6 +149,7 @@ final class SirenRenderer implements RenderInterface
      * Get Class Name
      *
      * @param ReflectionClass $ref
+     *
      * @return string
      */
     private function getClass(ReflectionClass $ref)
@@ -189,6 +161,7 @@ final class SirenRenderer implements RenderInterface
      * Get Href
      *
      * @param Uri $uri
+     *
      * @return string
      */
     private function getHref(Uri $uri)
@@ -198,5 +171,65 @@ final class SirenRenderer implements RenderInterface
         $link = $this->getReverseMatchedLink($path);
 
         return $link;
+    }
+
+    /**
+     * @param array  $body
+     * @param object $annotation
+     * @param Entity $rootEntity
+     */
+    private function embedResource(array &$body, $annotation, Entity $rootEntity)
+    {
+        if (isset($body[$annotation->rel])) {
+            $entity = new Entity();
+            $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
+            $href = $this->getHref(new Uri($replacedSrc));
+
+            $entity->setProperties($body[$annotation->rel])
+                ->addRel($annotation->rel)
+                ->setHref($href);
+        }
+        /* @var $entity Entity */
+        $rootEntity->addEntity($entity);
+        unset($body[$annotation->rel]);
+    }
+
+    /**
+     * @param array  $body
+     * @param object $annotation
+     * @param Entity $rootEntity
+     */
+    private function embedLink(array &$body, $annotation, Entity $rootEntity)
+    {
+        $entity = new Entity();
+        $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
+        $href = $this->getHref(new Uri($replacedSrc));
+
+        $entity->addRel($annotation->rel)->setHref($href);
+        /* @var $entity Entity */
+        $rootEntity->addEntity($entity);
+        unset($body[$annotation->rel]);
+    }
+
+    /**
+     * @param array  $data
+     * @param Entity $rootEntity
+     */
+    private function addAction(array $data, Entity $rootEntity)
+    {
+        $action = new Action();
+        $action->setName($data['name']);
+        $action->setTitle($data['title']);
+        $action->setHref($this->getHref(new Uri($data['href'])));
+        $action->setMethod($data['method']);
+
+        foreach ($data['fields'] as $row) {
+            $field = new Field();
+            $field->setName($row['name']);
+            $field->setType($row['type']);
+            $field->setValue($row['value']);
+            $action->addField($field);
+        }
+        $rootEntity->addAction($action);
     }
 }

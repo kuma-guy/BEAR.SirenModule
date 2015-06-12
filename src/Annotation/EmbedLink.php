@@ -1,11 +1,11 @@
 <?php
+
 /**
- * This file is part of the BEAR.SirenRenderer package
+ * This file is part of the BEAR.SirenModule package
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-
-namespace BEAR\SirenRenderer\Annotation;
+namespace BEAR\SirenModule\Annotation;
 
 /**
  * @Annotation
@@ -19,7 +19,7 @@ final class EmbedLink
      * @var string
      */
     public $rel;
-    
+
     /**
      * Embed resource uri
      *

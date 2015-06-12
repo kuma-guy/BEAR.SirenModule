@@ -1,17 +1,15 @@
 <?php
+
 /**
- * This file is part of the BEAR.SirenRenderer package
+ * This file is part of the BEAR.SirenModule package
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace BEAR\SirenRenderer\Context;
+namespace BEAR\SirenModule;
 
 use BEAR\Resource\RenderInterface;
-use BEAR\SirenRenderer\Annotation\Action;
-use BEAR\SirenRenderer\Annotation\EmbedResource;
-use BEAR\SirenRenderer\Provide\ActionInterceptor;
-use BEAR\SirenRenderer\Provide\EmbedResourceInterceptor;
-use BEAR\SirenRenderer\Provide\Representation\SirenRenderer;
+use BEAR\SirenModule\Annotation\Action;
+use BEAR\SirenModule\Annotation\EmbedResource;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Di\AbstractModule;

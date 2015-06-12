@@ -1,21 +1,17 @@
 <?php
+
 /**
- * This file is part of the BEAR.SirenRenderer package
+ * This file is part of the BEAR.SirenModule package
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace BEAR\SirenRenderer\Provide;
+namespace BEAR\SirenModule;
 
+use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\Exception\BadRequestException;
-use BEAR\Resource\FactoryInterface;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenRenderer\Annotation\Action;
-use BEAR\SirenRenderer\Annotation\EmbedLink;
-use BEAR\SirenRenderer\Annotation\EmbedResource;
-use BEAR\SirenRenderer\Annotation\Field;
-use BEAR\SirenRenderer\Annotation\Name;
-use BEAR\SirenRenderer\Annotation\Title;
+use BEAR\SirenModule\Annotation\EmbedResource;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
@@ -26,10 +22,12 @@ final class EmbedResourceInterceptor implements MethodInterceptor
      * @var \BEAR\Resource\ResourceInterface
      */
     private $resource;
+
     /**
      * @var Reader
      */
     private $reader;
+
     /**
      * @param ResourceInterface $resource
      * @param Reader            $reader
@@ -53,8 +51,10 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         $this->embedResource($embeds, $resourceObject, $query);
         // request (method can modify embedded resource)
         $result = $invocation->proceed();
+
         return $result;
     }
+
     /**
      * @param Embed[]        $embeds
      * @param ResourceObject $resourceObject
@@ -88,8 +88,10 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         if (substr($uri, 0, 1) == '/') {
             $uri = "{$resourceObject->uri->scheme}://{$resourceObject->uri->host}" . $uri;
         }
+
         return $uri;
     }
+
     /**
      * @param MethodInvocation $invocation
      *
@@ -103,6 +105,7 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         foreach ($params as $param) {
             $namedParameters[$param->name] = array_shift($args);
         }
+
         return $namedParameters;
     }
 }

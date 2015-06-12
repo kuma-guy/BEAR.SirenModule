@@ -1,19 +1,20 @@
 <?php
+
 /**
- * This file is part of the BEAR.SirenRenderer package
+ * This file is part of the BEAR.SirenModule package
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace BEAR\SirenRenderer\Provide;
+namespace BEAR\SirenModule;
 
 use BEAR\Resource\Exception\BadRequestException;
 use BEAR\Resource\FactoryInterface;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenRenderer\Annotation\Action;
-use BEAR\SirenRenderer\Annotation\Field;
-use BEAR\SirenRenderer\Annotation\Name;
-use BEAR\SirenRenderer\Annotation\Title;
+use BEAR\SirenModule\Annotation\Action;
+use BEAR\SirenModule\Annotation\Field;
+use BEAR\SirenModule\Annotation\Name;
+use BEAR\SirenModule\Annotation\Title;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
@@ -24,13 +25,16 @@ final class ActionInterceptor implements MethodInterceptor
      * @var \BEAR\Resource\ResourceInterface
      */
     private $resource;
+
     /**
      * @var Reader
      */
     private $reader;
+
     /**
      * @param ResourceInterface $resource
      * @param Reader            $reader
+     * @param FactoryInterface  $factory
      */
     public function __construct(ResourceInterface $resource, Reader $reader, FactoryInterface $factory)
     {
@@ -53,11 +57,12 @@ final class ActionInterceptor implements MethodInterceptor
         $this->addActions($actions, $resourceObject, $query);
         // request (method can modify embedded resource)
         $result = $invocation->proceed();
+
         return $result;
     }
 
     /**
-     * @param Action[]        $actions
+     * @param Action[]       $actions
      * @param ResourceObject $resourceObject
      * @param array          $query
      */
@@ -103,7 +108,6 @@ final class ActionInterceptor implements MethodInterceptor
                 }
 
                 $resourceObject->body['siren']['actions'][] = $data;
-
             } catch (BadRequestException $e) {
                 // wrap ResourceNotFound or Uri exception
                 //throw new ActionException($action->src, 500, $e);
@@ -135,6 +139,7 @@ final class ActionInterceptor implements MethodInterceptor
         foreach ($query as $key => $value) {
             $src = str_replace('{?' . $key . '}', '?' . $key . '=' . $value, $src);
         }
+
         return $src;
     }
 
@@ -149,6 +154,7 @@ final class ActionInterceptor implements MethodInterceptor
         if (substr($uri, 0, 1) == '/') {
             $uri = "{$resourceObject->uri->scheme}://{$resourceObject->uri->host}" . $uri;
         }
+
         return $uri;
     }
     /**
@@ -164,6 +170,7 @@ final class ActionInterceptor implements MethodInterceptor
         foreach ($params as $param) {
             $namedParameters[$param->name] = array_shift($args);
         }
+
         return $namedParameters;
     }
 }

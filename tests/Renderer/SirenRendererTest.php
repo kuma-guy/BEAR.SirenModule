@@ -1,6 +1,6 @@
 <?php
 
-namespace BEAR\SirenRenderer;
+namespace BEAR\SirenModule;
 
 use BEAR\Resource\ResourceInterface;
 use FakeVendor\Sandbox\AppModule;
@@ -23,7 +23,6 @@ class SirenRendererTest extends \PHPUnit_Framework_TestCase
         //var_dump(json_decode($string));
         var_dump($string);
         die();
-
 
         $this->assertSame($expect, (string) $news);
     }
