@@ -10,67 +10,103 @@ Siren [https://github.com/kevinswiber/siren]
 
 ## Entity
 
-### class (Optional)
+#### class (optional)
 
-@Class
+You can specify this optional value with `@Class` annotation.
 
-### properties
+```
+@SirenClass(name="order")
+```
+
+#### properties (optional)
 
 Properties are the response body of the resource object.
 
 ## Entities
 
-Add sub related entity using @Embed annotation.
+Add sub related entity resources using `@EmbedResource` annotation.
 
 ```
 @EmbedResource(rel="customer", src="app://self/customer{?customerId}")
-@EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
 ```
 
-And then, get the entity by request in the method like below.
+And then, you can embed the entity by request like below.
 
 ```
 $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
 ```
 
-### class (Optional)
+For sub related link entity use `@EmbedLink` annotation.
 
-### type (Optional)
+
+```
+@EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
+```
+
+#### class (optional)
+
+WIP
+
+#### type (optional)
+
+WIP
 
 ## Actions
 
-Action can be added using @Action annotation.
+Action can be added using `@Action` annotation.
 
+```
 @Action(src="app://self/orderitem{?orderNumber}", method="post")
+```
 
-### name (Required)
+As a example, the actual method has to be annotated like below
 
-Default name will be the method name on the resource object such as OnGet, OnPost..
-You can override the name with annotation @name
+```
+    /**
+     * @Name("add-item")
+     * @Title("Add Item")
+     *
+     * @Field(name="orderNumber", type="hidden", value="{?orderNumber}")
+     * @Field(name="productCode", type="text")
+     * @Field(name="quantity", type="number")
+     *
+     * @param int $customerId
+     */
+    public function onPost($customerId)
+    {
+        // do something...
+    }
+```
 
-### title (Optional)
 
-This is optional value for title of the action.
 
-### method (Optional)
+#### name (required)
 
-This is optional value for method of the action.
+You need to define action name using `@Name` annotation when you want to represent `Action`
 
-### href (Required)
+#### title (optional)
 
-If you defined as "self", the module automatically build url for your resource.
+This is optional. You can specify with `@Title` annotation.
+
+#### field (optional)
+
+This is going to be controls of the action.
+You can add user control for the action with `@Field` annotation.
+
 
 ## Links
 
+```
 @Link(rel="previous", parameter="{orderNumber}")
 @Link(rel="next", parameter="{orderNumber}")
+```
 
-### rel (Required)
-### href (Optional)
+#### rel (required)
+#### href (optional)
 
 ## Example
 
-### Order Resource
+#### Order Resource
 
 ```php
 class Order extends ResourceObject
@@ -97,7 +133,7 @@ class Order extends ResourceObject
 }
 ```
 
-### Response
+#### Response
 
 ```json
 {
