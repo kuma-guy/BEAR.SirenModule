@@ -24,7 +24,7 @@ Properties are the response body of the resource object.
 
 ## Entities
 
-Add sub related entity resources using `@EmbedResource` annotation.
+Add sub related resource entities using `@EmbedResource` annotation.
 
 ```
 @EmbedResource(rel="customer", src="app://self/customer{?customerId}")
@@ -112,20 +112,22 @@ You can add user control for the action with `@Field` annotation.
 class Order extends ResourceObject
 {
     /**
+     * @SirenClass(name="order")
      * @EmbedResource(rel="customer", src="app://self/customer{?customerId}")
      * @EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
      * @Action(src="app://self/orderitem{?orderNumber}", method="post")
      *
      * @param $orderNumber
+     *
      * @return $this
      */
     public function onGet($orderNumber)
     {
         $this['orderNumber'] = $orderNumber;
         $this['itemCount'] = 3;
-        $this['status'] = "pending";
+        $this['status'] = 'pending';
 
-        $customerId = "pj123";
+        $customerId = 'pj123';
         $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
 
         return $this;
@@ -138,7 +140,7 @@ class Order extends ResourceObject
 ```json
 {
     "class": [
-        "orders"
+        "order"
     ],
     "properties": {
         "orderNumber": 42,
@@ -147,7 +149,7 @@ class Order extends ResourceObject
     },
     "entities": [
         {
-            "href": "/customer?customerId=pj123",
+            "href": "\/customer?customerId=pj123",
             "rel": [
                 "customer"
             ],
@@ -157,7 +159,7 @@ class Order extends ResourceObject
             }
         },
         {
-            "href": "/orderitem?orderNumber=42",
+            "href": "\/orderitem?orderNumber=42",
             "rel": [
                 "order-items"
             ]
@@ -166,10 +168,10 @@ class Order extends ResourceObject
     "actions": [
         {
             "name": "add-item",
-            "href": "/orderitem?orderNumber=42",
+            "href": "\/orderitem?orderNumber=42",
             "method": "POST",
             "title": "Add Item",
-            "type": "application/x-www-form-urlencoded",
+            "type": "application\/x-www-form-urlencoded",
             "fields": [
                 {
                     "name": "orderNumber",
@@ -192,7 +194,7 @@ class Order extends ResourceObject
             "rel": [
                 "self"
             ],
-            "href": "/orders?orderNumber=42"
+            "href": "\/orders?orderNumber=42"
         }
     ]
 }
