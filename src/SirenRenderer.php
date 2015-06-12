@@ -12,6 +12,7 @@ use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
 use BEAR\SirenModule\Annotation\EmbedLink;
 use BEAR\SirenModule\Annotation\EmbedResource;
+use BEAR\SirenModule\Annotation\SirenClass;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use Siren\Components\Action;
@@ -85,10 +86,6 @@ final class SirenRenderer implements RenderInterface
         // Siren Root Entity
         $rootEntity = new Entity();
 
-        // Class
-        $className = $this->getClass($ref);
-        $rootEntity->addClass($className);
-
         // Add Self Link
         $rootEntity->addLink($self);
 
@@ -99,8 +96,11 @@ final class SirenRenderer implements RenderInterface
             }
         }
 
-        // Sub Entity
+        // Build Entity
         foreach ($annotations as $annotation) {
+            if ($annotation instanceof SirenClass) {
+                $this->addClass($annotation, $rootEntity);
+            }
             if ($annotation instanceof EmbedResource) {
                 $this->embedResource($body, $annotation, $rootEntity);
             }
@@ -116,6 +116,17 @@ final class SirenRenderer implements RenderInterface
         // TODO: Related Link
 
         return $rootEntity;
+    }
+
+    /**
+     * @param $annotation
+     * @param $rootEntity
+     */
+    private function addClass($annotation, Entity $rootEntity)
+    {
+        // Class
+        $class = $annotation->name;
+        $rootEntity->addClass($class);
     }
 
     /**
@@ -143,18 +154,6 @@ final class SirenRenderer implements RenderInterface
         }
 
         return $query;
-    }
-
-    /**
-     * Get Class Name
-     *
-     * @param ReflectionClass $ref
-     *
-     * @return string
-     */
-    private function getClass(ReflectionClass $ref)
-    {
-        return lcfirst($ref->getParentClass()->getShortName());
     }
 
     /**

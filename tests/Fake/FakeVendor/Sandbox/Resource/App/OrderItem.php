@@ -5,21 +5,18 @@ namespace FakeVendor\Sandbox\Resource\App;
 use BEAR\Resource\ResourceObject;
 use BEAR\SirenModule\Annotation\Field;
 use BEAR\SirenModule\Annotation\Name;
+use BEAR\SirenModule\Annotation\SirenClass;
 use BEAR\SirenModule\Annotation\Title;
 
 class OrderItem extends ResourceObject
 {
     /**
-     * Class(name="items,collection")?
-     * Rel?
+     * @SirenClass(name="items,collection")
      *
      * @return $this
      */
     public function onGet($orderNumber)
     {
-        // class: [ "items", "collection" ]
-        // rel: [ "http://x.io/rels/order-items" ]
-        // href: http://api.x.io/orders/42/items
         return $this;
     }
 
@@ -35,5 +32,6 @@ class OrderItem extends ResourceObject
      */
     public function onPost($customerId)
     {
+        // do something...
     }
 }

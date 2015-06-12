@@ -7,6 +7,7 @@ use BEAR\Resource\ResourceObject;
 use BEAR\SirenModule\Annotation\Action;
 use BEAR\SirenModule\Annotation\EmbedLink;
 use BEAR\SirenModule\Annotation\EmbedResource;
+use BEAR\SirenModule\Annotation\SirenClass;
 
 class Orders extends ResourceObject
 {
@@ -18,6 +19,7 @@ class Orders extends ResourceObject
     }
 
     /**
+     * @SirenClass(name="order")
      * @EmbedResource(rel="customer", src="app://self/customer{?customerId}")
      * @EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
      * @Action(src="app://self/orderitem{?orderNumber}", method="post")
