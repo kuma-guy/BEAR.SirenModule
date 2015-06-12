@@ -59,7 +59,7 @@ Action can be added using `@Action` annotation.
 @Action(src="app://self/orderitem{?orderNumber}", method="post")
 ```
 
-As a example, the actual method has to be annotated like below
+The actual method defined as `Action` has to be annotated like below.
 
 ```php
     /**
