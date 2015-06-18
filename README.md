@@ -1,4 +1,4 @@
-# BEAR.Siren
+# BEAR.SirenModule
 
 Siren support for BEAR.Sunday
 
