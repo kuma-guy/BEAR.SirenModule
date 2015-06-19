@@ -111,9 +111,9 @@ You can add user control for the action with `@Field` annotation.
 ```php
     /**
      * @SirenClass(name="order")
-     * @EmbedResource(rel="customer", src="app://self/customer{?customerId}")
-     * @EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
-     * @Action(src="app://self/orderitem{?orderNumber}", method="post")
+     * @SirenEmbedResource(rel="customer", src="app://self/customer{?customerId}")
+     * @SirenEmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
+     * @SirenAction(src="app://self/orderitem{?orderNumber}", method="post")
      *
      * @param $orderNumber
      *
@@ -165,12 +165,12 @@ You can add user control for the action with `@Field` annotation.
     }
 
     /**
-     * @Name("add-item")
-     * @Title("Add Item")
+     * @SirenName("add-item")
+     * @SirenTitle("Add Item")
      *
-     * @Field(name="orderNumber", type="hidden", value="{?orderNumber}")
-     * @Field(name="productCode", type="text")
-     * @Field(name="quantity", type="number")
+     * @SirenField(name="orderNumber", type="hidden", value="{?orderNumber}")
+     * @SirenField(name="productCode", type="text")
+     * @SirenField(name="quantity", type="number")
      *
      * @param int $customerId
      */
