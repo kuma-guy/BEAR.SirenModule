@@ -11,12 +11,19 @@ namespace BEAR\SirenModule\Annotation;
  * @Annotation
  * @Target("METHOD")
  */
-final class Title
+final class SirenEmbedResource
 {
     /**
-     * title
+     * Relation
      *
      * @var string
      */
-    public $value = '';
+    public $rel;
+
+    /**
+     * Embed resource uri
+     *
+     * @var string
+     */
+    public $src;
 }

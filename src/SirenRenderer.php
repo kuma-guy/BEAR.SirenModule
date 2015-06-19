@@ -10,9 +10,9 @@ namespace BEAR\SirenModule;
 use BEAR\Resource\RenderInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
-use BEAR\SirenModule\Annotation\EmbedLink;
-use BEAR\SirenModule\Annotation\EmbedResource;
 use BEAR\SirenModule\Annotation\SirenClass;
+use BEAR\SirenModule\Annotation\SirenEmbedLink;
+use BEAR\SirenModule\Annotation\SirenEmbedResource;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use Siren\Components\Action;
@@ -101,10 +101,10 @@ final class SirenRenderer implements RenderInterface
             if ($annotation instanceof SirenClass) {
                 $this->addClass($annotation, $rootEntity);
             }
-            if ($annotation instanceof EmbedResource) {
+            if ($annotation instanceof SirenEmbedResource) {
                 $this->embedResource($body, $annotation, $rootEntity);
             }
-            if ($annotation instanceof EmbedLink) {
+            if ($annotation instanceof SirenEmbedLink) {
                 $this->embedLink($body, $annotation, $rootEntity);
             }
         }

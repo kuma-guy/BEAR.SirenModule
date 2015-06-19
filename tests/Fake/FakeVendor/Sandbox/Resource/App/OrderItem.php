@@ -3,10 +3,10 @@
 namespace FakeVendor\Sandbox\Resource\App;
 
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenModule\Annotation\Field;
-use BEAR\SirenModule\Annotation\Name;
 use BEAR\SirenModule\Annotation\SirenClass;
-use BEAR\SirenModule\Annotation\Title;
+use BEAR\SirenModule\Annotation\SirenField;
+use BEAR\SirenModule\Annotation\SirenName;
+use BEAR\SirenModule\Annotation\SirenTitle;
 
 class OrderItem extends ResourceObject
 {
@@ -21,12 +21,12 @@ class OrderItem extends ResourceObject
     }
 
     /**
-     * @Name("add-item")
-     * @Title("Add Item")
+     * @SirenName("add-item")
+     * @SirenTitle("Add Item")
      *
-     * @Field(name="orderNumber", type="hidden", value="{?orderNumber}")
-     * @Field(name="productCode", type="text")
-     * @Field(name="quantity", type="number")
+     * @SirenField(name="orderNumber", type="hidden", value="{?orderNumber}")
+     * @SirenField(name="productCode", type="text")
+     * @SirenField(name="quantity", type="number")
      *
      * @param int $customerId
      */

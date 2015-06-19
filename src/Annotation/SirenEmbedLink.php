@@ -11,7 +11,7 @@ namespace BEAR\SirenModule\Annotation;
  * @Annotation
  * @Target("METHOD")
  */
-final class EmbedResource
+final class SirenEmbedLink
 {
     /**
      * Relation

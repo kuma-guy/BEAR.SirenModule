@@ -14,37 +14,16 @@ namespace BEAR\SirenModule\Annotation;
 final class SirenLink
 {
     /**
-     * Relation
+     * rel
      *
      * @var string
      */
-    public $rel;
+    public $rel = '';
 
     /**
-     * Class
+     * uri to get href
      *
      * @var string
      */
-    public $class;
-
-    /**
-     * Href
-     *
-     * @var string
-     */
-    public $href;
-
-    /**
-     * Title
-     *
-     * @var string
-     */
-    public $title;
-
-    /**
-     * Type
-     *
-     * @var string
-     */
-    public $type;
+    public $uri = '';
 }

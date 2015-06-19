@@ -4,10 +4,10 @@ namespace FakeVendor\Sandbox\Resource\App;
 
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenModule\Annotation\Action;
-use BEAR\SirenModule\Annotation\EmbedLink;
-use BEAR\SirenModule\Annotation\EmbedResource;
+use BEAR\SirenModule\Annotation\SirenAction;
 use BEAR\SirenModule\Annotation\SirenClass;
+use BEAR\SirenModule\Annotation\SirenEmbedLink;
+use BEAR\SirenModule\Annotation\SirenEmbedResource;
 
 class Orders extends ResourceObject
 {
@@ -20,9 +20,9 @@ class Orders extends ResourceObject
 
     /**
      * @SirenClass(name="order")
-     * @EmbedResource(rel="customer", src="app://self/customer{?customerId}")
-     * @EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
-     * @Action(src="app://self/orderitem{?orderNumber}", method="post")
+     * @SirenEmbedResource(rel="customer", src="app://self/customer{?customerId}")
+     * @SirenEmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
+     * @SirenAction(src="app://self/orderitem{?orderNumber}", method="post")
      *
      * @param $orderNumber
      *

@@ -8,8 +8,8 @@
 namespace BEAR\SirenModule;
 
 use BEAR\Resource\RenderInterface;
-use BEAR\SirenModule\Annotation\Action;
-use BEAR\SirenModule\Annotation\EmbedResource;
+use BEAR\SirenModule\Annotation\SirenAction;
+use BEAR\SirenModule\Annotation\SirenEmbedResource;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Di\AbstractModule;
@@ -25,14 +25,14 @@ class SirenModule extends AbstractModule
         $this->bind(RenderInterface::class)->to(SirenRenderer::class)->in(Scope::SINGLETON);
         $this->bindInterceptor(
             $this->matcher->any(),
-            $this->matcher->annotatedWith(Action::class),
+            $this->matcher->annotatedWith(SirenAction::class),
             [ActionInterceptor::class]
         );
 
         $this->bind(Reader::class)->to(AnnotationReader::class);
         $this->bindInterceptor(
             $this->matcher->any(),
-            $this->matcher->annotatedWith(EmbedResource::class),
+            $this->matcher->annotatedWith(SirenEmbedResource::class),
             [EmbedResourceInterceptor::class]
         );
     }

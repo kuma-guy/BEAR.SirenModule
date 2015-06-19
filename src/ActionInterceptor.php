@@ -11,13 +11,14 @@ use BEAR\Resource\Exception\BadRequestException;
 use BEAR\Resource\FactoryInterface;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenModule\Annotation\Action;
-use BEAR\SirenModule\Annotation\Field;
-use BEAR\SirenModule\Annotation\Name;
-use BEAR\SirenModule\Annotation\Title;
+use BEAR\SirenModule\Annotation\SirenAction;
+use BEAR\SirenModule\Annotation\SirenField;
+use BEAR\SirenModule\Annotation\SirenName;
+use BEAR\SirenModule\Annotation\SirenTitle;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
+use Siren\Components\Action;
 
 final class ActionInterceptor implements MethodInterceptor
 {
@@ -33,8 +34,8 @@ final class ActionInterceptor implements MethodInterceptor
 
     /**
      * @param ResourceInterface $resource
-     * @param Reader            $reader
-     * @param FactoryInterface  $factory
+     * @param Reader $reader
+     * @param FactoryInterface $factory
      */
     public function __construct(ResourceInterface $resource, Reader $reader, FactoryInterface $factory)
     {
@@ -62,15 +63,15 @@ final class ActionInterceptor implements MethodInterceptor
     }
 
     /**
-     * @param Action[]       $actions
+     * @param Action[] $actions
      * @param ResourceObject $resourceObject
-     * @param array          $query
+     * @param array $query
      */
     private function addActions(array $actions, ResourceObject $resourceObject, array $query)
     {
         foreach ($actions as $action) {
-            /* @var $action Action */
-            if (! $action instanceof Action) {
+            /* @var $action SirenAction */
+            if (!$action instanceof SirenAction) {
                 continue;
             }
             try {
@@ -90,13 +91,13 @@ final class ActionInterceptor implements MethodInterceptor
                 $data = [];
 
                 foreach ($annotations as $annotation) {
-                    if ($annotation instanceof Name) {
+                    if ($annotation instanceof SirenName) {
                         $data['name'] = $annotation->value;
                     }
-                    if ($annotation instanceof Title) {
+                    if ($annotation instanceof SirenTitle) {
                         $data['title'] = $annotation->value;
                     }
-                    if ($annotation instanceof Field) {
+                    if ($annotation instanceof SirenField) {
                         $field = [];
                         $field['name'] = $annotation->name;
                         $field['type'] = $annotation->type;
@@ -144,7 +145,7 @@ final class ActionInterceptor implements MethodInterceptor
     }
 
     /**
-     * @param string         $uri
+     * @param string $uri
      * @param ResourceObject $resourceObject
      *
      * @return string
@@ -157,6 +158,7 @@ final class ActionInterceptor implements MethodInterceptor
 
         return $uri;
     }
+
     /**
      * @param MethodInvocation $invocation
      *

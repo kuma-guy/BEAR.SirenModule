@@ -11,19 +11,26 @@ namespace BEAR\SirenModule\Annotation;
  * @Annotation
  * @Target("METHOD")
  */
-final class Link
+final class SirenField
 {
     /**
-     * rel
+     * name
      *
      * @var string
      */
-    public $rel = '';
+    public $name = '';
 
     /**
-     * uri to get href
+     * type
      *
      * @var string
      */
-    public $uri = '';
+    public $type = '';
+
+    /**
+     * value
+     *
+     * @var string
+     */
+    public $value = '';
 }

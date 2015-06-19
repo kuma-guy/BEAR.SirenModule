@@ -11,7 +11,7 @@ use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\Exception\BadRequestException;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenModule\Annotation\EmbedResource;
+use BEAR\SirenModule\Annotation\SirenEmbedResource;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
@@ -63,8 +63,8 @@ final class EmbedResourceInterceptor implements MethodInterceptor
     private function embedResource(array $embeds, ResourceObject $resourceObject, array $query)
     {
         foreach ($embeds as $embed) {
-            /* @var $embed EmbedResource */
-            if (! $embed instanceof EmbedResource) {
+            /* @var $embed SirenEmbedResource */
+            if (! $embed instanceof SirenEmbedResource) {
                 continue;
             }
             try {

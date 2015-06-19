@@ -11,24 +11,10 @@ namespace BEAR\SirenModule\Annotation;
  * @Annotation
  * @Target("METHOD")
  */
-final class Field
+final class SirenTitle
 {
     /**
-     * name
-     *
-     * @var string
-     */
-    public $name = '';
-
-    /**
-     * type
-     *
-     * @var string
-     */
-    public $type = '';
-
-    /**
-     * value
+     * title
      *
      * @var string
      */
