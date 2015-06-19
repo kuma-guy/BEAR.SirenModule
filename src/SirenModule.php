@@ -22,14 +22,13 @@ class SirenModule extends AbstractModule
      */
     protected function configure()
     {
+        $this->bind(Reader::class)->to(AnnotationReader::class);
         $this->bind(RenderInterface::class)->to(SirenRenderer::class)->in(Scope::SINGLETON);
         $this->bindInterceptor(
             $this->matcher->any(),
             $this->matcher->annotatedWith(SirenAction::class),
             [ActionInterceptor::class]
         );
-
-        $this->bind(Reader::class)->to(AnnotationReader::class);
         $this->bindInterceptor(
             $this->matcher->any(),
             $this->matcher->annotatedWith(SirenEmbedResource::class),
