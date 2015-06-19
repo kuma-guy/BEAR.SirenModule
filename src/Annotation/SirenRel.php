@@ -11,7 +11,7 @@ namespace BEAR\SirenModule\Annotation;
  * @Annotation
  * @Target("METHOD")
  */
-final class Rel
+final class SirenRel
 {
     /**
      * rel
