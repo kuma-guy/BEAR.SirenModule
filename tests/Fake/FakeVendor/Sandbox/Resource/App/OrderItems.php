@@ -8,7 +8,7 @@ use BEAR\SirenModule\Annotation\SirenField;
 use BEAR\SirenModule\Annotation\SirenName;
 use BEAR\SirenModule\Annotation\SirenTitle;
 
-class OrderItem extends ResourceObject
+class OrderItems extends ResourceObject
 {
     /**
      * @SirenClass(name="items,collection")
@@ -23,15 +23,17 @@ class OrderItem extends ResourceObject
     /**
      * @SirenName("add-item")
      * @SirenTitle("Add Item")
-     *
      * @SirenField(name="orderNumber", type="hidden", value="{?orderNumber}")
      * @SirenField(name="productCode", type="text")
      * @SirenField(name="quantity", type="number")
      *
      * @param int $customerId
+     *
+     * @return $this
      */
     public function onPost($customerId)
     {
         // do something...
+        return $this;
     }
 }

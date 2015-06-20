@@ -21,12 +21,9 @@ class Orders extends ResourceObject
 
     /**
      * @SirenClass(name="order")
-     *
      * @SirenEmbedResource(rel="customer", src="app://self/customer{?customerId}")
-     * @SirenEmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
-     *
-     * @SirenAction(src="app://self/orderitem{?orderNumber}", method="post")
-     *
+     * @SirenEmbedLink(rel="order-items", src="app://self/orderitems{?orderNumber}")
+     * @SirenAction(src="app://self/orderitems{?orderNumber}", method="post")
      * @SirenLink(rel="previous", param="orderNumber")
      * @SirenLink(rel="next", param="orderNumber")
      *
