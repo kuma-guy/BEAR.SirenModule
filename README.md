@@ -12,7 +12,7 @@ Siren [https://github.com/kevinswiber/siren]
 
 #### class (optional)
 
-You can specify this optional value with `@Class` annotation.
+You can specify this optional value with `@SirenClass` annotation.
 
 ```
 @SirenClass(name="order")
@@ -24,10 +24,10 @@ Properties are the response body of the resource object.
 
 ## Entities
 
-Add sub related resource entities using `@EmbedResource` annotation.
+Add sub related resource entities using `@SirenEmbedResource` annotation.
 
 ```
-@EmbedResource(rel="customer", src="app://self/customer{?customerId}")
+@SirenEmbedResource(rel="customer", src="app://self/customer{?customerId}")
 ```
 
 And then, you can embed the entity by request like below.
@@ -36,7 +36,7 @@ And then, you can embed the entity by request like below.
 $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
 ```
 
-For sub related link entity use `@EmbedLink` annotation.
+For sub related link entity use `@SirenEmbedLink` annotation.
 
 
 ```
@@ -53,22 +53,22 @@ WIP
 
 ## Actions
 
-Action can be added using `@Action` annotation.
+Action can be added using `@SirenAction` annotation.
 
 ```
-@Action(src="app://self/orderitem{?orderNumber}", method="post")
+@SirenAction(src="app://self/orderitem{?orderNumber}", method="post")
 ```
 
-The actual method defined as `Action` has to be annotated like below.
+The actual method defined as `SirenAction` has to be annotated like below.
 
 ```php
     /**
-     * @Name("add-item")
-     * @Title("Add Item")
+     * @SirenName("add-item")
+     * @SirenTitle("Add Item")
      *
-     * @Field(name="orderNumber", type="hidden", value="{?orderNumber}")
-     * @Field(name="productCode", type="text")
-     * @Field(name="quantity", type="number")
+     * @SirenField(name="orderNumber", type="hidden", value="{?orderNumber}")
+     * @SirenField(name="productCode", type="text")
+     * @SirenField(name="quantity", type="number")
      *
      * @param int $customerId
      */
@@ -82,23 +82,23 @@ The actual method defined as `Action` has to be annotated like below.
 
 #### name (required)
 
-You need to define action name using `@Name` annotation when you want to represent `Action`
+You need to define action name using `@SirenName` annotation when you want to represent `Action`
 
 #### title (optional)
 
-This is optional. You can specify with `@Title` annotation.
+This is optional. You can specify with `@SirenTitle` annotation.
 
 #### field (optional)
 
 This is going to be controls of the action.
-You can add user control for the action with `@Field` annotation.
+You can add user control for the action with `@SirenField` annotation.
 
 
 ## Links
 
 ```
-@Link(rel="previous", parameter="{orderNumber}")
-@Link(rel="next", parameter="{orderNumber}")
+@SirenLink(rel="previous", parameter="{orderNumber}")
+@SirenLink(rel="next", parameter="{orderNumber}")
 ```
 
 #### rel (required)
