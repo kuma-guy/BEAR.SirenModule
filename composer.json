@@ -1,5 +1,5 @@
 {
-  "name": "shingo-kumagai/siren-renderer",
+  "name": "shingo-kumagai/siren-module",
   "description": "",
   "license": "MIT",
   "authors": [
@@ -20,7 +20,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "BEAR\\SirenRenderer\\": "tests/",
+      "BEAR\\SirenModule\\": "tests/",
       "FakeVendor\\Sandbox\\": "tests/Fake/FakeVendor/Sandbox/"
     }
   },

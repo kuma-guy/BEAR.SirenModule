@@ -22,8 +22,10 @@ class SirenModule extends AbstractModule
      */
     protected function configure()
     {
+        $this->bind(PaginationParamHolderInterface::class)->to(SirenPaginationParamHolder::class)->in(Scope::SINGLETON);
         $this->bind(Reader::class)->to(AnnotationReader::class);
         $this->bind(RenderInterface::class)->to(SirenRenderer::class)->in(Scope::SINGLETON);
+
         $this->bindInterceptor(
             $this->matcher->any(),
             $this->matcher->annotatedWith(SirenAction::class),

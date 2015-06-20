@@ -14,16 +14,16 @@ namespace BEAR\SirenModule\Annotation;
 final class SirenLink
 {
     /**
-     * rel
+     * Rel
      *
      * @var string
      */
     public $rel = '';
 
     /**
-     * uri to get href
+     * Param
      *
      * @var string
      */
-    public $uri = '';
+    public $param = '';
 }

@@ -8,6 +8,7 @@ use BEAR\SirenModule\Annotation\SirenAction;
 use BEAR\SirenModule\Annotation\SirenClass;
 use BEAR\SirenModule\Annotation\SirenEmbedLink;
 use BEAR\SirenModule\Annotation\SirenEmbedResource;
+use BEAR\SirenModule\Annotation\SirenLink;
 
 class Orders extends ResourceObject
 {
@@ -20,9 +21,14 @@ class Orders extends ResourceObject
 
     /**
      * @SirenClass(name="order")
+     *
      * @SirenEmbedResource(rel="customer", src="app://self/customer{?customerId}")
      * @SirenEmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
+     *
      * @SirenAction(src="app://self/orderitem{?orderNumber}", method="post")
+     *
+     * @SirenLink(rel="previous", param="orderNumber")
+     * @SirenLink(rel="next", param="orderNumber")
      *
      * @param $orderNumber
      *

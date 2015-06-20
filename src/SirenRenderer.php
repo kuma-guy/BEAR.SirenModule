@@ -13,6 +13,7 @@ use BEAR\Resource\Uri;
 use BEAR\SirenModule\Annotation\SirenClass;
 use BEAR\SirenModule\Annotation\SirenEmbedLink;
 use BEAR\SirenModule\Annotation\SirenEmbedResource;
+use BEAR\SirenModule\Annotation\SirenLink;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use Siren\Components\Action;
@@ -28,9 +29,10 @@ final class SirenRenderer implements RenderInterface
      */
     private $reader;
 
-    public function __construct(Reader $reader)
+    public function __construct(Reader $reader, PaginationParamHolderInterface $paginater)
     {
         $this->reader = $reader;
+        $this->paginater = $paginater;
     }
 
     /**
@@ -107,13 +109,14 @@ final class SirenRenderer implements RenderInterface
             if ($annotation instanceof SirenEmbedLink) {
                 $this->embedLink($body, $annotation, $rootEntity);
             }
+            if ($annotation instanceof SirenLink) {
+                $this->addSirenLink($ro, $body, $annotation, $rootEntity);
+            }
         }
 
         // Properties
         unset($body['siren']);
         $rootEntity->setProperties($body);
-
-        // TODO: Related Link
 
         return $rootEntity;
     }
@@ -208,6 +211,36 @@ final class SirenRenderer implements RenderInterface
         /* @var $entity Entity */
         $rootEntity->addEntity($entity);
         unset($body[$annotation->rel]);
+    }
+
+    /**
+     * @param ResourceObject $ro
+     * @param array $body
+     * @param $annotation
+     * @param Entity $rootEntity
+     */
+    private function addSirenLink(ResourceObject $ro, array &$body, $annotation, Entity $rootEntity)
+    {
+        // Parameters for pagination.
+        $parameters = [
+            $annotation->param => $body[$annotation->param]
+        ];
+
+        $pagingQuery = [];
+
+        if ($annotation->rel == 'previous') {
+            $pagingQuery = $this->paginater->getPreviousParameter($parameters);
+        }
+        if ($annotation->rel == 'next') {
+            $pagingQuery = $this->paginater->getNextParameter($parameters);
+        }
+
+        $ro->uri->query = array_merge($ro->uri->query, $pagingQuery);
+
+        $link = new Link;
+        $link->addRel($annotation->rel)->setHref($this->getHref($ro->uri));
+
+        $rootEntity->addLink($link);
     }
 
     /**
