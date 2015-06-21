@@ -186,13 +186,6 @@ You can add user control for the action with `@SirenField` annotation.
         "order"
     ],
     "properties": {
-        "customer": {
-            "siren": {
-                "class": "info,customer"
-            },
-            "customerId": "pj123",
-            "name": "Peter Joseph"
-        },
         "orderNumber": 42,
         "itemCount": 3,
         "status": "pending"
@@ -208,9 +201,6 @@ You can add user control for the action with `@SirenField` annotation.
                 "customer"
             ],
             "properties": {
-                "siren": {
-                    "class": "info,customer"
-                },
                 "customerId": "pj123",
                 "name": "Peter Joseph"
             }

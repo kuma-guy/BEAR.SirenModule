@@ -182,17 +182,15 @@ final class SirenRenderer implements RenderInterface
      */
     private function embedResource(array &$body, $annotation, Entity $rootEntity)
     {
-        $embedBody = $body[$annotation->rel];
-
-        if (isset($embedBody)) {
+        if (isset($body[$annotation->rel])) {
             $entity = new Entity();
 
-            if ($embedBody['siren']['class']) {
-                $classes = explode(',', $embedBody['siren']['class']);
+            if ($body[$annotation->rel]['siren']['class']) {
+                $classes = explode(',', $body[$annotation->rel]['siren']['class']);
                 foreach ($classes as $class) {
                     $entity->addClass($class);
                 }
-                unset($embedBody['siren']['class']);
+                unset($body[$annotation->rel]['siren']);
             }
 
             $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
@@ -203,7 +201,7 @@ final class SirenRenderer implements RenderInterface
         }
         /* @var $entity Entity */
         $rootEntity->addEntity($entity);
-        unset($embedBody);
+        unset($body[$annotation->rel]);
     }
 
     /**
@@ -217,12 +215,12 @@ final class SirenRenderer implements RenderInterface
         $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
         $href = $this->getHref(new Uri($replacedSrc));
 
-        $embedBody = $body[$annotation->rel];
-        if (isset($embedBody['siren']['class'])) {
-            $classes = $embedBody['siren']['class'];
+        if (isset($body[$annotation->rel]['siren']['class'])) {
+            $classes = $body[$annotation->rel]['siren']['class'];
             foreach ($classes as $class) {
                 $entity->addClass($class);
             }
+            unset($body[$annotation->rel]['siren']);
         }
 
         $entity->addRel($annotation->rel)->setHref($href);
