@@ -38,14 +38,9 @@ $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
 
 For sub related link entity use `@SirenEmbedLink` annotation.
 
-
 ```
-@EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
+@SirenEmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
 ```
-
-#### type (optional)
-
-WIP
 
 ## Actions
 
@@ -87,6 +82,9 @@ This is optional. You can specify with `@SirenTitle` annotation.
 This is going to be controls of the action.
 You can add user control for the action with `@SirenField` annotation.
 
+#### type (optional)
+
+WIP
 
 ## Links
 
