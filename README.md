@@ -43,10 +43,6 @@ For sub related link entity use `@SirenEmbedLink` annotation.
 @EmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
 ```
 
-#### class (optional)
-
-WIP
-
 #### type (optional)
 
 WIP
@@ -78,8 +74,6 @@ The actual method defined as `SirenAction` has to be annotated like below.
     }
 ```
 
-
-
 #### name (required)
 
 You need to define action name using `@SirenName` annotation when you want to represent `Action`
@@ -97,12 +91,9 @@ You can add user control for the action with `@SirenField` annotation.
 ## Links
 
 ```
-@SirenLink(rel="previous", parameter="{orderNumber}")
-@SirenLink(rel="next", parameter="{orderNumber}")
+@SirenLink(rel="previous", param="orderNumber")
+@SirenLink(rel="next", param="orderNumber")
 ```
-
-#### rel (required)
-#### href (optional)
 
 ## Example
 
@@ -111,9 +102,14 @@ You can add user control for the action with `@SirenField` annotation.
 ```php
     /**
      * @SirenClass(name="order")
+     *
      * @SirenEmbedResource(rel="customer", src="app://self/customer{?customerId}")
-     * @SirenEmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
-     * @SirenAction(src="app://self/orderitem{?orderNumber}", method="post")
+     * @SirenEmbedLink(rel="order-items", src="app://self/orderitems{?orderNumber}")
+     *
+     * @SirenAction(src="app://self/orderitems{?orderNumber}", method="post")
+     *
+     * @SirenLink(rel="previous", param="orderNumber")
+     * @SirenLink(rel="next", param="orderNumber")
      *
      * @param $orderNumber
      *
@@ -167,16 +163,18 @@ You can add user control for the action with `@SirenField` annotation.
     /**
      * @SirenName("add-item")
      * @SirenTitle("Add Item")
-     *
      * @SirenField(name="orderNumber", type="hidden", value="{?orderNumber}")
      * @SirenField(name="productCode", type="text")
      * @SirenField(name="quantity", type="number")
      *
      * @param int $customerId
+     *
+     * @return $this
      */
     public function onPost($customerId)
     {
         // do something...
+        return $this;
     }
 ```
 
@@ -188,35 +186,53 @@ You can add user control for the action with `@SirenField` annotation.
         "order"
     ],
     "properties": {
+        "customer": {
+            "siren": {
+                "class": "info,customer"
+            },
+            "customerId": "pj123",
+            "name": "Peter Joseph"
+        },
         "orderNumber": 42,
         "itemCount": 3,
         "status": "pending"
     },
     "entities": [
         {
-            "href": "\/customer?customerId=pj123",
+            "href": "/customer?customerId=pj123",
             "rel": [
                 "customer"
             ],
+            "class": [
+                "info",
+                "customer"
+            ],
             "properties": {
+                "siren": {
+                    "class": "info,customer"
+                },
                 "customerId": "pj123",
                 "name": "Peter Joseph"
             }
         },
         {
-            "href": "\/orderitem?orderNumber=42",
+            "href": "/orderitems?orderNumber=42",
             "rel": [
                 "order-items"
+            ],
+            "class": [
+                "items",
+                "collection"
             ]
         }
     ],
     "actions": [
         {
             "name": "add-item",
-            "href": "\/orderitem?orderNumber=42",
+            "href": "/orderitems?orderNumber=42",
             "method": "POST",
             "title": "Add Item",
-            "type": "application\/x-www-form-urlencoded",
+            "type": "application/x-www-form-urlencoded",
             "fields": [
                 {
                     "name": "orderNumber",
@@ -239,7 +255,19 @@ You can add user control for the action with `@SirenField` annotation.
             "rel": [
                 "self"
             ],
-            "href": "\/orders?orderNumber=42"
+            "href": "/orders?orderNumber=42"
+        },
+        {
+            "rel": [
+                "previous"
+            ],
+            "href": "/orders?orderNumber=41"
+        },
+        {
+            "rel": [
+                "next"
+            ],
+            "href": "/orders?orderNumber=43"
         }
     ]
 }
