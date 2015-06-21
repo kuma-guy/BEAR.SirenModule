@@ -9,6 +9,8 @@ namespace BEAR\SirenModule;
 
 use BEAR\Resource\RenderInterface;
 use BEAR\SirenModule\Annotation\SirenAction;
+use BEAR\SirenModule\Annotation\SirenClass;
+use BEAR\SirenModule\Annotation\SirenEmbedLink;
 use BEAR\SirenModule\Annotation\SirenEmbedResource;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\Reader;
@@ -28,6 +30,11 @@ class SirenModule extends AbstractModule
 
         $this->bindInterceptor(
             $this->matcher->any(),
+            $this->matcher->annotatedWith(SirenClass::class),
+            [SirenClassInterceptor::class]
+        );
+        $this->bindInterceptor(
+            $this->matcher->any(),
             $this->matcher->annotatedWith(SirenAction::class),
             [ActionInterceptor::class]
         );
@@ -35,6 +42,11 @@ class SirenModule extends AbstractModule
             $this->matcher->any(),
             $this->matcher->annotatedWith(SirenEmbedResource::class),
             [EmbedResourceInterceptor::class]
+        );
+        $this->bindInterceptor(
+            $this->matcher->any(),
+            $this->matcher->annotatedWith(SirenEmbedLink::class),
+            [EmbedLinkInterceptor::class]
         );
     }
 }

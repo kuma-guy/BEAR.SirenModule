@@ -9,14 +9,16 @@ namespace BEAR\SirenModule;
 
 use BEAR\Resource\Annotation\Embed;
 use BEAR\Resource\Exception\BadRequestException;
+use BEAR\Resource\FactoryInterface;
 use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
-use BEAR\SirenModule\Annotation\SirenEmbedResource;
+use BEAR\SirenModule\Annotation\SirenClass;
+use BEAR\SirenModule\Annotation\SirenEmbedLink;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 
-final class EmbedResourceInterceptor implements MethodInterceptor
+final class EmbedLinkInterceptor implements MethodInterceptor
 {
     /**
      * @var \BEAR\Resource\ResourceInterface
@@ -32,11 +34,13 @@ final class EmbedResourceInterceptor implements MethodInterceptor
      * @param ResourceInterface $resource
      * @param Reader            $reader
      */
-    public function __construct(ResourceInterface $resource, Reader $reader)
+    public function __construct(ResourceInterface $resource, Reader $reader, FactoryInterface $factory)
     {
         $this->resource = $resource;
         $this->reader = $reader;
+        $this->factory = $factory;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -48,7 +52,7 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         $query = $this->getArgsByInvocation($invocation);
         $embeds = $this->reader->getMethodAnnotations($method);
         // embedding resource
-        $this->embedResource($embeds, $resourceObject, $query);
+        $this->embedLink($embeds, $resourceObject, $query);
         // request (method can modify embedded resource)
         $result = $invocation->proceed();
 
@@ -60,17 +64,28 @@ final class EmbedResourceInterceptor implements MethodInterceptor
      * @param ResourceObject $resourceObject
      * @param array          $query
      */
-    private function embedResource(array $embeds, ResourceObject $resourceObject, array $query)
+    private function embedLink(array $embeds, ResourceObject $resourceObject, array $query)
     {
         foreach ($embeds as $embed) {
-            /* @var $embed SirenEmbedResource */
-            if (! $embed instanceof SirenEmbedResource) {
+            if (! $embed instanceof SirenEmbedLink) {
                 continue;
             }
             try {
                 $templateUri = $this->getFullUri($embed->src, $resourceObject);
                 $uri = uri_template($templateUri, $query);
-                $resourceObject->body[$embed->rel] = clone $this->resource->get->uri($uri);
+
+                $actionResource = $this->factory->newInstance($uri);
+                $ref = new \ReflectionMethod($actionResource, 'onGet');
+                $annotations = $this->reader->getMethodAnnotations($ref);
+
+                foreach ($annotations as $annotation) {
+                    if (! $annotation instanceof SirenClass) {
+                        continue;
+                    }
+                    $classes = explode(',', $annotation->name);
+                    $resourceObject->body[$embed->rel]['siren']['class'] = $classes;
+                }
+
             } catch (BadRequestException $e) {
                 // wrap ResourceNotFound or Uri exception
                 throw new EmbedException($embed->src, 500, $e);
