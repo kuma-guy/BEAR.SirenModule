@@ -14,6 +14,7 @@ use BEAR\Resource\ResourceInterface;
 use BEAR\Resource\ResourceObject;
 use BEAR\SirenModule\Annotation\SirenClass;
 use BEAR\SirenModule\Annotation\SirenEmbedLink;
+use BEAR\SirenModule\Exception\SirenEmbedLinkException;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
@@ -87,8 +88,7 @@ final class EmbedLinkInterceptor implements MethodInterceptor
                 }
 
             } catch (BadRequestException $e) {
-                // wrap ResourceNotFound or Uri exception
-                throw new EmbedException($embed->src, 500, $e);
+                throw new SirenEmbedLinkException($embed->src, 500, $e);
             }
         }
     }
