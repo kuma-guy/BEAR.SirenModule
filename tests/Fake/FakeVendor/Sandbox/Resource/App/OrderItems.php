@@ -28,7 +28,6 @@ class OrderItems extends ResourceObject
      * @SirenField(name="quantity", type="number")
      *
      * @param int $customerId
-     *
      * @return $this
      */
     public function onPost($customerId)
