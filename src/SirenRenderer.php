@@ -16,6 +16,7 @@ use BEAR\SirenModule\Annotation\SirenEmbedResource;
 use BEAR\SirenModule\Annotation\SirenLink;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
+use Rize\UriTemplate;
 use Siren\Components\Action;
 use Siren\Components\Entity;
 use Siren\Components\Field;
@@ -128,7 +129,7 @@ final class SirenRenderer implements RenderInterface
     private function addClass($annotation, Entity $rootEntity)
     {
         // Class
-        $class = $annotation->name;
+        $class = $annotation->value;
         $rootEntity->addClass($class);
     }
 
@@ -136,23 +137,23 @@ final class SirenRenderer implements RenderInterface
      * Replace parameter holder with actual value.
      *
      * @param $query
-     * @param $properties
-     *
+     * @param $body
+     * @param bool $recursive
      * @return mixed
+     * @internal param $properties
+     *
      */
-    private function replaceQueryParameter($rel, $query, $body)
+    private function replaceQueryParameter($query, $body, $recursive = false)
     {
-        if (isset($body[$rel])) {
-            foreach ($body[$rel] as $key => $value) {
-                if (strstr($query, $key)) {
-                    return str_replace('{?' . $key . '}', '?' . $key . '=' . $value, $query);
-                }
-            }
+        $uri = new UriTemplate();
+
+        if (!$recursive) {
+            return $uri->expand($query, $body);
         }
 
         foreach ($body as $key => $value) {
-            if (strstr($query, $key)) {
-                return str_replace('{?' . $key . '}', '?' . $key . '=' . $value, $query);
+            if (is_array($value)) {
+                return $uri->expand($query, $value);
             }
         }
 
@@ -193,7 +194,8 @@ final class SirenRenderer implements RenderInterface
                 unset($body[$annotation->rel]['siren']);
             }
 
-            $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
+            $replacedSrc = $this->replaceQueryParameter($annotation->src, $body[$annotation->rel]);
+
             $href = $this->getHref(new Uri($replacedSrc));
             $entity->setProperties($body[$annotation->rel])
                 ->addRel($annotation->rel)
@@ -212,7 +214,7 @@ final class SirenRenderer implements RenderInterface
     private function embedLink(array &$body, $annotation, Entity $rootEntity)
     {
         $entity = new Entity();
-        $replacedSrc = $this->replaceQueryParameter($annotation->rel, $annotation->src, $body);
+        $replacedSrc = $this->replaceQueryParameter($annotation->src, $body);
         $href = $this->getHref(new Uri($replacedSrc));
 
         if (isset($body[$annotation->rel]['siren']['class'])) {

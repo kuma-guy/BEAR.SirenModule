@@ -18,6 +18,7 @@ use BEAR\SirenModule\Annotation\SirenTitle;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
+use Rize\UriTemplate;
 use Siren\Components\Action;
 
 final class ActionInterceptor implements MethodInterceptor
@@ -105,7 +106,7 @@ final class ActionInterceptor implements MethodInterceptor
                         $data['fields'][] = $field;
                     }
                     $data['method'] = strtoupper($action->method);
-                    $data['href'] = $this->replaceQueryParameter($action->src, $query);
+                    $data['href'] = $this->replaceParameters($action->src, $query);
                 }
 
                 $resourceObject->body['siren']['actions'][] = $data;
@@ -124,24 +125,8 @@ final class ActionInterceptor implements MethodInterceptor
      */
     private function replaceParameters($parameter, $query)
     {
-        foreach ($query as $key => $value) {
-            return str_replace('{?' . $key . '}', $value, $parameter);
-        }
-    }
-
-    /**
-     * @param $src
-     * @param $query
-     *
-     * @return mixed
-     */
-    private function replaceQueryParameter($src, $query)
-    {
-        foreach ($query as $key => $value) {
-            $src = str_replace('{?' . $key . '}', '?' . $key . '=' . $value, $src);
-        }
-
-        return $src;
+        $uri = new UriTemplate();
+        return $uri->expand($parameter, $query);
     }
 
     /**
