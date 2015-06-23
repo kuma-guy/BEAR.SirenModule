@@ -148,6 +148,12 @@ final class SirenRenderer implements RenderInterface
         $uri = new UriTemplate();
 
         foreach ($body as $key => $value) {
+            if (strstr($query, $key)) {
+                return $uri->expand($query, $body);
+            }
+        }
+
+        foreach ($body as $key => $value) {
             if (is_array($value)) {
                 return $this->replaceQueryParameter($query, $value);
             }
