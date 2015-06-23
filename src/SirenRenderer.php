@@ -143,21 +143,17 @@ final class SirenRenderer implements RenderInterface
      * @internal param $properties
      *
      */
-    private function replaceQueryParameter($query, $body, $recursive = false)
+    private function replaceQueryParameter($query, $body)
     {
         $uri = new UriTemplate();
 
-        if (!$recursive) {
-            return $uri->expand($query, $body);
-        }
-
         foreach ($body as $key => $value) {
             if (is_array($value)) {
-                return $uri->expand($query, $value);
+                $this->replaceQueryParameter($query, $value);
             }
         }
 
-        return $query;
+        return $uri->expand($query, $body);
     }
 
     /**
@@ -214,6 +210,7 @@ final class SirenRenderer implements RenderInterface
     private function embedLink(array &$body, $annotation, Entity $rootEntity)
     {
         $entity = new Entity();
+
         $replacedSrc = $this->replaceQueryParameter($annotation->src, $body);
         $href = $this->getHref(new Uri($replacedSrc));
 
