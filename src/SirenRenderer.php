@@ -149,7 +149,7 @@ final class SirenRenderer implements RenderInterface
 
         foreach ($body as $key => $value) {
             if (is_array($value)) {
-                $this->replaceQueryParameter($query, $value);
+                return $this->replaceQueryParameter($query, $value);
             }
         }
 
@@ -182,7 +182,7 @@ final class SirenRenderer implements RenderInterface
         if (isset($body[$annotation->rel])) {
             $entity = new Entity();
 
-            if ($body[$annotation->rel]['siren']['class']) {
+            if (isset($body[$annotation->rel]['siren']['class'])) {
                 $classes = explode(',', $body[$annotation->rel]['siren']['class']);
                 foreach ($classes as $class) {
                     $entity->addClass($class);
