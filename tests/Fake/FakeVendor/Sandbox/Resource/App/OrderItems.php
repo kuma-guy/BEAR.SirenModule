@@ -11,7 +11,7 @@ use BEAR\SirenModule\Annotation\SirenTitle;
 class OrderItems extends ResourceObject
 {
     /**
-     * @SirenClass(name="items,collection")
+     * @SirenClass("items,collection")
      *
      * @return $this
      */
@@ -23,7 +23,7 @@ class OrderItems extends ResourceObject
     /**
      * @SirenName("add-item")
      * @SirenTitle("Add Item")
-     * @SirenField(name="orderNumber", type="hidden", value="{?orderNumber}")
+     * @SirenField(name="orderNumber", type="hidden", value="{orderNumber}")
      * @SirenField(name="productCode", type="text")
      * @SirenField(name="quantity", type="number")
      *

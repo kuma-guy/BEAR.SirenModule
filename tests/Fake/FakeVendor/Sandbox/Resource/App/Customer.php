@@ -15,10 +15,9 @@ class Customer extends ResourceObject
     }
 
     /**
-     * @SirenClass(name="info,customer")
+     * @SirenClass("info,customer")
      *
      * @param $customerId
-     *
      * @return $this
      */
     public function onGet($customerId)

@@ -83,7 +83,7 @@ final class EmbedLinkInterceptor implements MethodInterceptor
                     if (! $annotation instanceof SirenClass) {
                         continue;
                     }
-                    $classes = explode(',', $annotation->name);
+                    $classes = explode(',', $annotation->value);
                     $resourceObject->body[$embed->rel]['siren']['class'] = $classes;
                 }
 

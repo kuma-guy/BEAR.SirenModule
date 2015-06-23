@@ -48,7 +48,7 @@ final class SirenClassInterceptor implements MethodInterceptor
 
         foreach ($annotations as $annotation) {
             if ($annotation instanceof SirenClass) {
-                $resourceObject->body['siren']['class'] = $annotation->name;
+                $resourceObject->body['siren']['class'] = $annotation->value;
             }
         }
 

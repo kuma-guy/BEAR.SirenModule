@@ -18,5 +18,5 @@ final class SirenClass
      *
      * @var string
      */
-    public $name = '';
+    public $value = '';
 }
