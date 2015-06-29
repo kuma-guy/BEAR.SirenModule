@@ -52,16 +52,14 @@ final class EmbedLinkInterceptor implements MethodInterceptor
         $method = $invocation->getMethod();
         $query = $this->getArgsByInvocation($invocation);
         $embeds = $this->reader->getMethodAnnotations($method);
-        // embedding resource
+        // Embed resource link
         $this->embedLink($embeds, $resourceObject, $query);
-        // request (method can modify embedded resource)
-        $result = $invocation->proceed();
 
-        return $result;
+        return $invocation->proceed();
     }
 
     /**
-     * @param Embed[]        $embeds
+     * @param array          $embeds
      * @param ResourceObject $resourceObject
      * @param array          $query
      */
