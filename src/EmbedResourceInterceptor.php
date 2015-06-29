@@ -38,6 +38,7 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         $this->resource = $resource;
         $this->reader = $reader;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -48,16 +49,14 @@ final class EmbedResourceInterceptor implements MethodInterceptor
         $method = $invocation->getMethod();
         $query = $this->getArgsByInvocation($invocation);
         $embeds = $this->reader->getMethodAnnotations($method);
-        // embedding resource
+        // Embed resource
         $this->embedResource($embeds, $resourceObject, $query);
-        // request (method can modify embedded resource)
-        $result = $invocation->proceed();
 
-        return $result;
+        return $invocation->proceed();
     }
 
     /**
-     * @param Embed[]        $embeds
+     * @param array          $embeds
      * @param ResourceObject $resourceObject
      * @param array          $query
      */
