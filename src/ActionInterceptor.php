@@ -57,17 +57,16 @@ final class ActionInterceptor implements MethodInterceptor
         $query = $this->getArgsByInvocation($invocation);
         $actions = $this->reader->getMethodAnnotations($method);
 
+        // Add siren actions
         $this->addActions($actions, $resourceObject, $query);
-        // request (method can modify embedded resource)
-        $result = $invocation->proceed();
 
-        return $result;
+        return $invocation->proceed();
     }
 
     /**
-     * @param Action[] $actions
+     * @param array          $actions
      * @param ResourceObject $resourceObject
-     * @param array $query
+     * @param array          $query
      */
     private function addActions(array $actions, ResourceObject $resourceObject, array $query)
     {
@@ -109,10 +108,9 @@ final class ActionInterceptor implements MethodInterceptor
                     $data['method'] = strtoupper($action->method);
                     $data['href'] = $this->replaceParameters($action->src, $query);
                 }
-
                 $resourceObject->body['siren']['actions'][] = $data;
+
             } catch (BadRequestException $e) {
-                // wrap ResourceNotFound or Uri exception
                 throw new SirenActionException($action->src, 500, $e);
             }
         }

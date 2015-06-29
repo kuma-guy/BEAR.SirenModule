@@ -52,8 +52,6 @@ final class SirenClassInterceptor implements MethodInterceptor
             }
         }
 
-        $result = $invocation->proceed();
-
-        return $result;
+        return $invocation->proceed();
     }
 }

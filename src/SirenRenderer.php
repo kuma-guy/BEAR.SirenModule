@@ -138,10 +138,8 @@ final class SirenRenderer implements RenderInterface
      *
      * @param $query
      * @param $body
-     * @param bool $recursive
-     * @return mixed
-     * @internal param $properties
      *
+     * @return mixed
      */
     private function replaceQueryParameter($query, $body)
     {
