@@ -15,6 +15,7 @@ use BEAR\SirenModule\Annotation\SirenAction;
 use BEAR\SirenModule\Annotation\SirenField;
 use BEAR\SirenModule\Annotation\SirenName;
 use BEAR\SirenModule\Annotation\SirenTitle;
+use BEAR\SirenModule\Exception\SirenActionException;
 use Doctrine\Common\Annotations\Reader;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
@@ -112,7 +113,7 @@ final class ActionInterceptor implements MethodInterceptor
                 $resourceObject->body['siren']['actions'][] = $data;
             } catch (BadRequestException $e) {
                 // wrap ResourceNotFound or Uri exception
-                //throw new ActionException($action->src, 500, $e);
+                throw new SirenActionException($action->src, 500, $e);
             }
         }
     }
