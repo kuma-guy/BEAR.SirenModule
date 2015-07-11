@@ -8,6 +8,7 @@
 namespace BEAR\SirenModule;
 
 use BEAR\Resource\RenderInterface;
+use BEAR\Resource\Resource;
 use BEAR\Resource\ResourceObject;
 use BEAR\Resource\Uri;
 use BEAR\SirenModule\Annotation\SirenClass;
@@ -80,8 +81,7 @@ final class SirenRenderer implements RenderInterface
         $ref = new ReflectionClass($ro);
 
         // Self Link
-        $self = new Link;
-        $self->addRel('self')->setHref($this->getHref($ro->uri));
+        $self = $this->addSelfLink($ro);
 
         // Resource Body
         $body = $ro->jsonSerialize();
@@ -120,6 +120,22 @@ final class SirenRenderer implements RenderInterface
         $rootEntity->setProperties($body);
 
         return $rootEntity;
+    }
+
+    /**
+     * @param ResourceObject $ro
+     * @return Link
+     */
+    private function addSelfLink(ResourceObject $ro)
+    {
+        // Self Link
+        $self = new Link;
+        $self->addRel('self');
+
+        if (isset($ro->headers['Location'])) {
+            return $self->setHref($ro->headers['Location']);
+        }
+        return $self->setHref($this->getHref($ro->uri));
     }
 
     /**
@@ -290,3 +306,4 @@ final class SirenRenderer implements RenderInterface
         $rootEntity->addAction($action);
     }
 }
+    
