@@ -1,5 +1,7 @@
 # BEAR.SirenModule
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/shingo-kumagai/BEAR.SirenModule/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/shingo-kumagai/BEAR.SirenModule/?branch=master)
+
 Siren support for BEAR.Sunday
 
 **Siren renderer**
