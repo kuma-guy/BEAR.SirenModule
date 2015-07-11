@@ -117,7 +117,8 @@ final class SirenRenderer implements RenderInterface
 
         // Properties
         unset($body['siren']);
-        if (!$body) {
+
+        if ($body) {
             $rootEntity->setProperties($body);
         }
 
