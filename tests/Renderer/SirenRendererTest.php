@@ -19,7 +19,6 @@ class SirenRendererTest extends \PHPUnit_Framework_TestCase
             ->eager
             ->request();
 
-
         $response = json_decode((string)$order);
 
         // class
@@ -66,7 +65,7 @@ class SirenRendererTest extends \PHPUnit_Framework_TestCase
                 // Rel
                 $this->assertSame('order-items', $entity->rel[0]);
                 // Href
-                $this->assertSame('/orderitems?orderNumber=42', $entity->href);
+                $this->assertSame('/order/items?orderNumber=42', $entity->href);
             }
         }
     }
@@ -83,7 +82,7 @@ class SirenRendererTest extends \PHPUnit_Framework_TestCase
         // Method
         $this->assertSame('POST', $response->actions[0]->method);
         // Href
-        $this->assertSame('/orderitems?orderNumber=42', $response->actions[0]->href);
+        $this->assertSame('/order/items?orderNumber=42', $response->actions[0]->href);
         // Type
         $this->assertSame('application/x-www-form-urlencoded', $response->actions[0]->type);
         // Fields

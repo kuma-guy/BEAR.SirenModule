@@ -1,6 +1,6 @@
 <?php
 
-namespace FakeVendor\Sandbox\Resource\App;
+namespace FakeVendor\Sandbox\Resource\App\Order;
 
 use BEAR\Resource\ResourceObject;
 use BEAR\SirenModule\Annotation\SirenClass;
@@ -8,7 +8,7 @@ use BEAR\SirenModule\Annotation\SirenField;
 use BEAR\SirenModule\Annotation\SirenName;
 use BEAR\SirenModule\Annotation\SirenTitle;
 
-class OrderItems extends ResourceObject
+class Items extends ResourceObject
 {
     /**
      * @SirenClass("items,collection")
