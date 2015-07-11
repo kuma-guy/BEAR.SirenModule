@@ -11,6 +11,8 @@ It overrides default renderer and represents your resource in Siren format.
 
 Siren [https://github.com/kevinswiber/siren]
 
+## Demo
+
 Demo application using this module [https://github.com/shingo-kumagai/MyVendor.MySirenApi]
 
 ## Entity
