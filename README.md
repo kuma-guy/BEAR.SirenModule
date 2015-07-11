@@ -15,7 +15,7 @@ Siren [https://github.com/kevinswiber/siren]
 You can specify this optional value with `@SirenClass` annotation.
 
 ```
-@SirenClass(name="order")
+@SirenClass("order")
 ```
 
 #### properties (optional)
@@ -27,7 +27,7 @@ Properties are the response body of the resource object.
 Add sub related resource entities using `@SirenEmbedResource` annotation.
 
 ```
-@SirenEmbedResource(rel="customer", src="app://self/customer{?customerId}")
+@SirenEmbedResource(rel="customer", src="app://self/customer?customerId={customerId}")
 ```
 
 And then, you can embed the entity by request like below.
@@ -39,7 +39,7 @@ $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
 For sub related link entity use `@SirenEmbedLink` annotation.
 
 ```
-@SirenEmbedLink(rel="order-items", src="app://self/orderitem{?orderNumber}")
+@SirenEmbedLink(rel="order-items", src="app://self/orderitems?orderNumber={orderNumber}")
 ```
 
 ## Actions
@@ -47,7 +47,7 @@ For sub related link entity use `@SirenEmbedLink` annotation.
 Action can be added using `@SirenAction` annotation.
 
 ```
-@SirenAction(src="app://self/orderitem{?orderNumber}", method="post")
+@SirenAction(src="app://self/orderitems?orderNumber={orderNumber}", method="post")
 ```
 
 The actual method defined as `SirenAction` has to be annotated like below.
@@ -56,16 +56,17 @@ The actual method defined as `SirenAction` has to be annotated like below.
     /**
      * @SirenName("add-item")
      * @SirenTitle("Add Item")
-     *
-     * @SirenField(name="orderNumber", type="hidden", value="{?orderNumber}")
+     * @SirenField(name="orderNumber", type="hidden", value="{orderNumber}")
      * @SirenField(name="productCode", type="text")
      * @SirenField(name="quantity", type="number")
      *
      * @param int $customerId
+     * @return $this
      */
     public function onPost($customerId)
     {
         // do something...
+        return $this;
     }
 ```
 
@@ -94,87 +95,6 @@ WIP
 ```
 
 ## Example
-
-#### Order Resource
-
-```php
-    /**
-     * @SirenClass(name="order")
-     *
-     * @SirenEmbedResource(rel="customer", src="app://self/customer{?customerId}")
-     * @SirenEmbedLink(rel="order-items", src="app://self/orderitems{?orderNumber}")
-     *
-     * @SirenAction(src="app://self/orderitems{?orderNumber}", method="post")
-     *
-     * @SirenLink(rel="previous", param="orderNumber")
-     * @SirenLink(rel="next", param="orderNumber")
-     *
-     * @param $orderNumber
-     *
-     * @return $this
-     */
-    public function onGet($orderNumber)
-    {
-        $this['orderNumber'] = $orderNumber;
-        $this['itemCount'] = 3;
-        $this['status'] = 'pending';
-
-        $customerId = 'pj123';
-        $this['customer']->addQuery(['customerId' => $customerId])->eager->request();
-
-        return $this;
-    }
-```
-
-#### Customer Resource
-
-```php
-    /**
-     * @SirenClass(name="info,customer")
-     *
-     * @param $customerId
-     *
-     * @return $this
-     */
-    public function onGet($customerId)
-    {
-        $this['customerId'] = 'pj123';
-        $this['name'] = 'Peter Joseph';
-
-        return $this;
-    }
-```
-
-#### Order Item Resource
-
-```php
-    /**
-     * @SirenClass(name="items,collection")
-     *
-     * @return $this
-     */
-    public function onGet($orderNumber)
-    {
-        return $this;
-    }
-
-    /**
-     * @SirenName("add-item")
-     * @SirenTitle("Add Item")
-     * @SirenField(name="orderNumber", type="hidden", value="{?orderNumber}")
-     * @SirenField(name="productCode", type="text")
-     * @SirenField(name="quantity", type="number")
-     *
-     * @param int $customerId
-     *
-     * @return $this
-     */
-    public function onPost($customerId)
-    {
-        // do something...
-        return $this;
-    }
-```
 
 #### Response
 
