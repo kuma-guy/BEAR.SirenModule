@@ -117,7 +117,9 @@ final class SirenRenderer implements RenderInterface
 
         // Properties
         unset($body['siren']);
-        $rootEntity->setProperties($body);
+        if (!$body) {
+            $rootEntity->setProperties($body);
+        }
 
         return $rootEntity;
     }
@@ -306,4 +308,3 @@ final class SirenRenderer implements RenderInterface
         $rootEntity->addAction($action);
     }
 }
-    
