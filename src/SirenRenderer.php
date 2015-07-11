@@ -196,6 +196,12 @@ final class SirenRenderer implements RenderInterface
 
             $replacedSrc = $this->replaceQueryParameter($annotation->src, $body[$annotation->rel]);
 
+            // If embedded resource has no response, We are not going to embed it.
+            if (!$body[$annotation->rel]) {
+                unset($body[$annotation->rel]);
+                return;
+            }
+
             $href = $this->getHref(new Uri($replacedSrc));
             $entity->setProperties($body[$annotation->rel])
                 ->addRel($annotation->rel)
