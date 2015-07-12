@@ -119,7 +119,7 @@ final class SirenRenderer implements RenderInterface
         unset($body['siren']);
 
         // If the response body is re-formatted by jsonSerialize and has value key
-        if (count($body) == 1 || array_key_exists('value', $body)) {
+        if (count($body) == 1 && array_key_exists('value', $body)) {
             $body = $body['value'];
         }
 
